@@ -1,0 +1,15 @@
+{
+    "name": "@rustforweb/dom",
+    "description": "Rust port of various DOM libraries.",
+    "author": "Rust For Web <info@rustforweb.org>",
+    "repository": "github:RustForWeb/dom",
+    "license": "MIT",
+    "private": true,
+    "scripts": {},
+    "devDependencies": {
+        "prettier": "^3.2.5"
+    },
+    "engines": {
+        "node": ">=18"
+    }
+}

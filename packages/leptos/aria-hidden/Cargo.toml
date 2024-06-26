@@ -1,0 +1,12 @@
+[package]
+name = "aria-hidden"
+description = "Rust port of aria-hidden."
+
+authors.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+version.workspace = true
+
+[dependencies]
+web-sys.workspace = true
