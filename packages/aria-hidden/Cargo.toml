@@ -9,4 +9,12 @@ repository.workspace = true
 version.workspace = true
 
 [dependencies]
-web-sys.workspace = true
+once_cell = "1.19.0"
+web-sys = { workspace = true, features = [
+    "Document",
+    "Element",
+    "HtmlElement",
+    "Node",
+    "NodeList",
+    "ShadowRoot",
+] }
