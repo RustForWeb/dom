@@ -2,12 +2,6 @@
 
 Rust port of various DOM libraries.
 
-## Frameworks
-
-Rust DOM is available for these Rust frameworks:
-
--   [Leptos](./packages/leptos)
-
 ## Examples
 
 TODO
