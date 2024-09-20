@@ -1,4 +1,7 @@
-use std::collections::HashMap;
+use std::{collections::HashMap, str::FromStr};
+
+#[derive(Debug, PartialEq, Eq)]
+pub struct UnknownRoleError;
 
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
 pub enum AriaAbstractRole {
@@ -14,6 +17,28 @@ pub enum AriaAbstractRole {
     Structure,
     Widget,
     Window,
+}
+
+impl FromStr for AriaAbstractRole {
+    type Err = UnknownRoleError;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "command" => Ok(AriaAbstractRole::Command),
+            "composite" => Ok(AriaAbstractRole::Composite),
+            "input" => Ok(AriaAbstractRole::Input),
+            "landmark" => Ok(AriaAbstractRole::Landmark),
+            "range" => Ok(AriaAbstractRole::Range),
+            "roletype" => Ok(AriaAbstractRole::Roletype),
+            "section" => Ok(AriaAbstractRole::Section),
+            "sectionhead" => Ok(AriaAbstractRole::Sectionhead),
+            "select" => Ok(AriaAbstractRole::Select),
+            "structure" => Ok(AriaAbstractRole::Structure),
+            "widget" => Ok(AriaAbstractRole::Widget),
+            "window" => Ok(AriaAbstractRole::Window),
+            _ => Err(UnknownRoleError),
+        }
+    }
 }
 
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
@@ -39,6 +64,35 @@ pub enum AriaWidgetRole {
     Treeitem,
 }
 
+impl FromStr for AriaWidgetRole {
+    type Err = UnknownRoleError;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "button" => Ok(AriaWidgetRole::Button),
+            "checkbox" => Ok(AriaWidgetRole::Checkbox),
+            "gridcell" => Ok(AriaWidgetRole::Gridcell),
+            "link" => Ok(AriaWidgetRole::Link),
+            "menuitem" => Ok(AriaWidgetRole::Menuitem),
+            "menuitemcheckbox" => Ok(AriaWidgetRole::Menuitemcheckbox),
+            "menuitemradio" => Ok(AriaWidgetRole::Menuitemradio),
+            "option" => Ok(AriaWidgetRole::Option),
+            "progressbar" => Ok(AriaWidgetRole::Progressbar),
+            "radio" => Ok(AriaWidgetRole::Radio),
+            "scrollbar" => Ok(AriaWidgetRole::Scrollbar),
+            "searchbox" => Ok(AriaWidgetRole::Searchbox),
+            "slider" => Ok(AriaWidgetRole::Slider),
+            "spinbutton" => Ok(AriaWidgetRole::Spinbutton),
+            "switch" => Ok(AriaWidgetRole::Switch),
+            "tab" => Ok(AriaWidgetRole::Tab),
+            "tabpanel" => Ok(AriaWidgetRole::Tabpanel),
+            "textbox" => Ok(AriaWidgetRole::Textbox),
+            "treeitem" => Ok(AriaWidgetRole::Treeitem),
+            _ => Err(UnknownRoleError),
+        }
+    }
+}
+
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
 pub enum AriaCompositeWidgetRole {
     Combobox,
@@ -50,6 +104,25 @@ pub enum AriaCompositeWidgetRole {
     Tablist,
     Tree,
     Treegrid,
+}
+
+impl FromStr for AriaCompositeWidgetRole {
+    type Err = UnknownRoleError;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "combobox" => Ok(AriaCompositeWidgetRole::Combobox),
+            "grid" => Ok(AriaCompositeWidgetRole::Grid),
+            "listbox" => Ok(AriaCompositeWidgetRole::Listbox),
+            "menu" => Ok(AriaCompositeWidgetRole::Menu),
+            "menubar" => Ok(AriaCompositeWidgetRole::Menubar),
+            "radiogroup" => Ok(AriaCompositeWidgetRole::Radiogroup),
+            "tablist" => Ok(AriaCompositeWidgetRole::Tablist),
+            "tree" => Ok(AriaCompositeWidgetRole::Tree),
+            "treegrid" => Ok(AriaCompositeWidgetRole::Treegrid),
+            _ => Err(UnknownRoleError),
+        }
+    }
 }
 
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
@@ -95,6 +168,55 @@ pub enum AriaDocumentStructureRole {
     Tooltip,
 }
 
+impl FromStr for AriaDocumentStructureRole {
+    type Err = UnknownRoleError;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "application" => Ok(AriaDocumentStructureRole::Application),
+            "article" => Ok(AriaDocumentStructureRole::Article),
+            "blockquote" => Ok(AriaDocumentStructureRole::Blockquote),
+            "caption" => Ok(AriaDocumentStructureRole::Caption),
+            "cell" => Ok(AriaDocumentStructureRole::Cell),
+            "columnheader" => Ok(AriaDocumentStructureRole::Columnheader),
+            "definition" => Ok(AriaDocumentStructureRole::Definition),
+            "deletion" => Ok(AriaDocumentStructureRole::Deletion),
+            "directory" => Ok(AriaDocumentStructureRole::Directory),
+            "document" => Ok(AriaDocumentStructureRole::Document),
+            "emphasis" => Ok(AriaDocumentStructureRole::Emphasis),
+            "feed" => Ok(AriaDocumentStructureRole::Feed),
+            "figure" => Ok(AriaDocumentStructureRole::Figure),
+            "generic" => Ok(AriaDocumentStructureRole::Generic),
+            "group" => Ok(AriaDocumentStructureRole::Group),
+            "heading" => Ok(AriaDocumentStructureRole::Heading),
+            "img" => Ok(AriaDocumentStructureRole::Img),
+            "insertion" => Ok(AriaDocumentStructureRole::Insertion),
+            "list" => Ok(AriaDocumentStructureRole::List),
+            "listitem" => Ok(AriaDocumentStructureRole::Listitem),
+            "mark" => Ok(AriaDocumentStructureRole::Mark),
+            "math" => Ok(AriaDocumentStructureRole::Math),
+            "meter" => Ok(AriaDocumentStructureRole::Meter),
+            "none" => Ok(AriaDocumentStructureRole::None),
+            "note" => Ok(AriaDocumentStructureRole::Note),
+            "paragraph" => Ok(AriaDocumentStructureRole::Paragraph),
+            "presentation" => Ok(AriaDocumentStructureRole::Presentation),
+            "row" => Ok(AriaDocumentStructureRole::Row),
+            "rowgroup" => Ok(AriaDocumentStructureRole::Rowgroup),
+            "rowheader" => Ok(AriaDocumentStructureRole::Rowheader),
+            "separator" => Ok(AriaDocumentStructureRole::Separator),
+            "strong" => Ok(AriaDocumentStructureRole::Strong),
+            "subscript" => Ok(AriaDocumentStructureRole::Subscript),
+            "superscript" => Ok(AriaDocumentStructureRole::Superscript),
+            "table" => Ok(AriaDocumentStructureRole::Table),
+            "term" => Ok(AriaDocumentStructureRole::Term),
+            "time" => Ok(AriaDocumentStructureRole::Time),
+            "toolbar" => Ok(AriaDocumentStructureRole::Toolbar),
+            "tooltip" => Ok(AriaDocumentStructureRole::Tooltip),
+            _ => Err(UnknownRoleError),
+        }
+    }
+}
+
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
 pub enum AriaLandmarkRole {
     Banner,
@@ -107,6 +229,24 @@ pub enum AriaLandmarkRole {
     Search,
 }
 
+impl FromStr for AriaLandmarkRole {
+    type Err = UnknownRoleError;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "banner" => Ok(AriaLandmarkRole::Banner),
+            "complementary" => Ok(AriaLandmarkRole::Complementary),
+            "contentinfo" => Ok(AriaLandmarkRole::Contentinfo),
+            "form" => Ok(AriaLandmarkRole::Form),
+            "main" => Ok(AriaLandmarkRole::Main),
+            "navigation" => Ok(AriaLandmarkRole::Navigation),
+            "region" => Ok(AriaLandmarkRole::Region),
+            "search" => Ok(AriaLandmarkRole::Search),
+            _ => Err(UnknownRoleError),
+        }
+    }
+}
+
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
 pub enum AriaLiveRegionRole {
     Alert,
@@ -116,15 +256,53 @@ pub enum AriaLiveRegionRole {
     Timer,
 }
 
+impl FromStr for AriaLiveRegionRole {
+    type Err = UnknownRoleError;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "alert" => Ok(AriaLiveRegionRole::Alert),
+            "log" => Ok(AriaLiveRegionRole::Log),
+            "marquee" => Ok(AriaLiveRegionRole::Marquee),
+            "status" => Ok(AriaLiveRegionRole::Status),
+            "timer" => Ok(AriaLiveRegionRole::Timer),
+            _ => Err(UnknownRoleError),
+        }
+    }
+}
+
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
 pub enum AriaWindowRole {
     Alertdialog,
     Dialog,
 }
 
+impl FromStr for AriaWindowRole {
+    type Err = UnknownRoleError;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "alertdialog" => Ok(AriaWindowRole::Alertdialog),
+            "dialog" => Ok(AriaWindowRole::Dialog),
+            _ => Err(UnknownRoleError),
+        }
+    }
+}
+
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
 pub enum AriaUncategorizedRole {
     Code,
+}
+
+impl FromStr for AriaUncategorizedRole {
+    type Err = UnknownRoleError;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "code" => Ok(AriaUncategorizedRole::Code),
+            _ => Err(UnknownRoleError),
+        }
+    }
 }
 
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
@@ -172,11 +350,75 @@ pub enum AriaDpubRole {
     DocToc,
 }
 
+impl FromStr for AriaDpubRole {
+    type Err = UnknownRoleError;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "doc-abstract" => Ok(AriaDpubRole::DocAbstract),
+            "doc-acknowledgments" => Ok(AriaDpubRole::DocAcknowledgments),
+            "doc-afterword" => Ok(AriaDpubRole::DocAfterword),
+            "doc-appendix" => Ok(AriaDpubRole::DocAppendix),
+            "doc-backlink" => Ok(AriaDpubRole::DocBacklink),
+            "doc-biblioentry" => Ok(AriaDpubRole::DocBiblioentry),
+            "doc-bibliography" => Ok(AriaDpubRole::DocBibliography),
+            "doc-biblioref" => Ok(AriaDpubRole::DocBiblioref),
+            "doc-chapter" => Ok(AriaDpubRole::DocChapter),
+            "doc-colophon" => Ok(AriaDpubRole::DocColophon),
+            "doc-conclusion" => Ok(AriaDpubRole::DocConclusion),
+            "doc-cover" => Ok(AriaDpubRole::DocCover),
+            "doc-credit" => Ok(AriaDpubRole::DocCredit),
+            "doc-credits" => Ok(AriaDpubRole::DocCredits),
+            "doc-dedication" => Ok(AriaDpubRole::DocDedication),
+            "doc-endnote" => Ok(AriaDpubRole::DocEndnote),
+            "doc-endnotes" => Ok(AriaDpubRole::DocEndnotes),
+            "doc-epigraph" => Ok(AriaDpubRole::DocEpigraph),
+            "doc-epilogue" => Ok(AriaDpubRole::DocEpilogue),
+            "doc-errata" => Ok(AriaDpubRole::DocErrata),
+            "doc-example" => Ok(AriaDpubRole::DocExample),
+            "doc-footnote" => Ok(AriaDpubRole::DocFootnote),
+            "doc-foreword" => Ok(AriaDpubRole::DocForeword),
+            "doc-glossary" => Ok(AriaDpubRole::DocGlossary),
+            "doc-glossref" => Ok(AriaDpubRole::DocGlossref),
+            "doc-index" => Ok(AriaDpubRole::DocIndex),
+            "doc-introduction" => Ok(AriaDpubRole::DocIntroduction),
+            "doc-noteref" => Ok(AriaDpubRole::DocNoteref),
+            "doc-notice" => Ok(AriaDpubRole::DocNotice),
+            "doc-pagebreak" => Ok(AriaDpubRole::DocPagebreak),
+            "doc-pageheader" => Ok(AriaDpubRole::DocPageheader),
+            "doc-pagefooter" => Ok(AriaDpubRole::DocPagefooter),
+            "doc-pagelist" => Ok(AriaDpubRole::DocPagelist),
+            "doc-part" => Ok(AriaDpubRole::DocPart),
+            "doc-preface" => Ok(AriaDpubRole::DocPreface),
+            "doc-prologue" => Ok(AriaDpubRole::DocPrologue),
+            "doc-pullquote" => Ok(AriaDpubRole::DocPullquote),
+            "doc-qna" => Ok(AriaDpubRole::DocQna),
+            "doc-subtitle" => Ok(AriaDpubRole::DocSubtitle),
+            "doc-tip" => Ok(AriaDpubRole::DocTip),
+            "doc-toc" => Ok(AriaDpubRole::DocToc),
+            _ => Err(UnknownRoleError),
+        }
+    }
+}
+
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
 pub enum AriaGraphicsRole {
     GraphicsDocument,
     GraphicsObject,
     GraphicsSymbol,
+}
+
+impl FromStr for AriaGraphicsRole {
+    type Err = UnknownRoleError;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "graphics-document" => Ok(AriaGraphicsRole::GraphicsDocument),
+            "graphics-object" => Ok(AriaGraphicsRole::GraphicsObject),
+            "graphics-symbol" => Ok(AriaGraphicsRole::GraphicsSymbol),
+            _ => Err(UnknownRoleError),
+        }
+    }
 }
 
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
