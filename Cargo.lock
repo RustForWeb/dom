@@ -11,6 +11,10 @@ dependencies = [
 ]
 
 [[package]]
+name = "aria-query"
+version = "0.0.1"
+
+[[package]]
 name = "bumpalo"
 version = "3.16.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"

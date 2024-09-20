@@ -1,0 +1,11 @@
+[package]
+name = "aria-query"
+description = "Rust port of aria-query."
+
+authors.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+version.workspace = true
+
+[dependencies]
