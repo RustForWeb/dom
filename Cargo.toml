@@ -7,7 +7,6 @@ authors = ["Rust For Web <info@rustforweb.org>"]
 edition = "2021"
 license = "MIT"
 repository = "https://github.com/RustForWeb/dom"
-version = "0.0.1"
 
 [workspace.dependencies]
 web-sys = "0.3.69"
