@@ -1,4 +1,8 @@
-use std::{collections::HashMap, str::FromStr};
+use std::{
+    collections::HashMap,
+    fmt::{Display, Formatter},
+    str::FromStr,
+};
 
 #[derive(Debug, PartialEq, Eq)]
 pub struct UnknownRoleError;
@@ -38,6 +42,29 @@ impl FromStr for AriaAbstractRole {
             "window" => Ok(AriaAbstractRole::Window),
             _ => Err(UnknownRoleError),
         }
+    }
+}
+
+impl Display for AriaAbstractRole {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        write!(
+            f,
+            "{}",
+            match self {
+                AriaAbstractRole::Command => "command",
+                AriaAbstractRole::Composite => "composite",
+                AriaAbstractRole::Input => "input",
+                AriaAbstractRole::Landmark => "landmark",
+                AriaAbstractRole::Range => "range",
+                AriaAbstractRole::Roletype => "roletype",
+                AriaAbstractRole::Section => "section",
+                AriaAbstractRole::Sectionhead => "sectionhead",
+                AriaAbstractRole::Select => "select",
+                AriaAbstractRole::Structure => "structure",
+                AriaAbstractRole::Widget => "widget",
+                AriaAbstractRole::Window => "window",
+            }
+        )
     }
 }
 
@@ -93,6 +120,36 @@ impl FromStr for AriaWidgetRole {
     }
 }
 
+impl Display for AriaWidgetRole {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        write!(
+            f,
+            "{}",
+            match self {
+                AriaWidgetRole::Button => "button",
+                AriaWidgetRole::Checkbox => "checkbox",
+                AriaWidgetRole::Gridcell => "gridcell",
+                AriaWidgetRole::Link => "link",
+                AriaWidgetRole::Menuitem => "menuitem",
+                AriaWidgetRole::Menuitemcheckbox => "menuitemcheckbox",
+                AriaWidgetRole::Menuitemradio => "menuitemradio",
+                AriaWidgetRole::Option => "option",
+                AriaWidgetRole::Progressbar => "progressbar",
+                AriaWidgetRole::Radio => "radio",
+                AriaWidgetRole::Scrollbar => "scrollbar",
+                AriaWidgetRole::Searchbox => "searchbox",
+                AriaWidgetRole::Slider => "slider",
+                AriaWidgetRole::Spinbutton => "spinbutton",
+                AriaWidgetRole::Switch => "switch",
+                AriaWidgetRole::Tab => "tab",
+                AriaWidgetRole::Tabpanel => "tabpanel",
+                AriaWidgetRole::Textbox => "textbox",
+                AriaWidgetRole::Treeitem => "treeitem",
+            }
+        )
+    }
+}
+
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
 pub enum AriaCompositeWidgetRole {
     Combobox,
@@ -122,6 +179,26 @@ impl FromStr for AriaCompositeWidgetRole {
             "treegrid" => Ok(AriaCompositeWidgetRole::Treegrid),
             _ => Err(UnknownRoleError),
         }
+    }
+}
+
+impl Display for AriaCompositeWidgetRole {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        write!(
+            f,
+            "{}",
+            match self {
+                AriaCompositeWidgetRole::Combobox => "combobox",
+                AriaCompositeWidgetRole::Grid => "grid",
+                AriaCompositeWidgetRole::Listbox => "listbox",
+                AriaCompositeWidgetRole::Menu => "menu",
+                AriaCompositeWidgetRole::Menubar => "menubar",
+                AriaCompositeWidgetRole::Radiogroup => "radiogroup",
+                AriaCompositeWidgetRole::Tablist => "tablist",
+                AriaCompositeWidgetRole::Tree => "tree",
+                AriaCompositeWidgetRole::Treegrid => "treegrid",
+            }
+        )
     }
 }
 
@@ -217,6 +294,56 @@ impl FromStr for AriaDocumentStructureRole {
     }
 }
 
+impl Display for AriaDocumentStructureRole {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        write!(
+            f,
+            "{}",
+            match self {
+                AriaDocumentStructureRole::Application => "application",
+                AriaDocumentStructureRole::Article => "article",
+                AriaDocumentStructureRole::Blockquote => "blockquote",
+                AriaDocumentStructureRole::Caption => "caption",
+                AriaDocumentStructureRole::Cell => "cell",
+                AriaDocumentStructureRole::Columnheader => "columnheader",
+                AriaDocumentStructureRole::Definition => "definition",
+                AriaDocumentStructureRole::Deletion => "deletion",
+                AriaDocumentStructureRole::Directory => "directory",
+                AriaDocumentStructureRole::Document => "document",
+                AriaDocumentStructureRole::Emphasis => "emphasis",
+                AriaDocumentStructureRole::Feed => "feed",
+                AriaDocumentStructureRole::Figure => "figure",
+                AriaDocumentStructureRole::Generic => "generic",
+                AriaDocumentStructureRole::Group => "group",
+                AriaDocumentStructureRole::Heading => "heading",
+                AriaDocumentStructureRole::Img => "img",
+                AriaDocumentStructureRole::Insertion => "insertion",
+                AriaDocumentStructureRole::List => "list",
+                AriaDocumentStructureRole::Listitem => "listitem",
+                AriaDocumentStructureRole::Mark => "mark",
+                AriaDocumentStructureRole::Math => "math",
+                AriaDocumentStructureRole::Meter => "meter",
+                AriaDocumentStructureRole::None => "none",
+                AriaDocumentStructureRole::Note => "note",
+                AriaDocumentStructureRole::Paragraph => "paragraph",
+                AriaDocumentStructureRole::Presentation => "presentation",
+                AriaDocumentStructureRole::Row => "row",
+                AriaDocumentStructureRole::Rowgroup => "rowgroup",
+                AriaDocumentStructureRole::Rowheader => "rowheader",
+                AriaDocumentStructureRole::Separator => "separator",
+                AriaDocumentStructureRole::Strong => "strong",
+                AriaDocumentStructureRole::Subscript => "subscript",
+                AriaDocumentStructureRole::Superscript => "superscript",
+                AriaDocumentStructureRole::Table => "table",
+                AriaDocumentStructureRole::Term => "term",
+                AriaDocumentStructureRole::Time => "time",
+                AriaDocumentStructureRole::Toolbar => "toolbar",
+                AriaDocumentStructureRole::Tooltip => "tooltip",
+            }
+        )
+    }
+}
+
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
 pub enum AriaLandmarkRole {
     Banner,
@@ -247,6 +374,25 @@ impl FromStr for AriaLandmarkRole {
     }
 }
 
+impl Display for AriaLandmarkRole {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        write!(
+            f,
+            "{}",
+            match self {
+                AriaLandmarkRole::Banner => "banner",
+                AriaLandmarkRole::Complementary => "complementary",
+                AriaLandmarkRole::Contentinfo => "contentinfo",
+                AriaLandmarkRole::Form => "form",
+                AriaLandmarkRole::Main => "main",
+                AriaLandmarkRole::Navigation => "navigation",
+                AriaLandmarkRole::Region => "region",
+                AriaLandmarkRole::Search => "search",
+            }
+        )
+    }
+}
+
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
 pub enum AriaLiveRegionRole {
     Alert,
@@ -271,6 +417,22 @@ impl FromStr for AriaLiveRegionRole {
     }
 }
 
+impl Display for AriaLiveRegionRole {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        write!(
+            f,
+            "{}",
+            match self {
+                AriaLiveRegionRole::Alert => "alert",
+                AriaLiveRegionRole::Log => "log",
+                AriaLiveRegionRole::Marquee => "marquee",
+                AriaLiveRegionRole::Status => "status",
+                AriaLiveRegionRole::Timer => "timer",
+            }
+        )
+    }
+}
+
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
 pub enum AriaWindowRole {
     Alertdialog,
@@ -289,6 +451,19 @@ impl FromStr for AriaWindowRole {
     }
 }
 
+impl Display for AriaWindowRole {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        write!(
+            f,
+            "{}",
+            match self {
+                AriaWindowRole::Alertdialog => "alertdialog",
+                AriaWindowRole::Dialog => "dialog",
+            }
+        )
+    }
+}
+
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
 pub enum AriaUncategorizedRole {
     Code,
@@ -302,6 +477,18 @@ impl FromStr for AriaUncategorizedRole {
             "code" => Ok(AriaUncategorizedRole::Code),
             _ => Err(UnknownRoleError),
         }
+    }
+}
+
+impl Display for AriaUncategorizedRole {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        write!(
+            f,
+            "{}",
+            match self {
+                AriaUncategorizedRole::Code => "code",
+            }
+        )
     }
 }
 
@@ -401,6 +588,58 @@ impl FromStr for AriaDpubRole {
     }
 }
 
+impl Display for AriaDpubRole {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        write!(
+            f,
+            "{}",
+            match self {
+                AriaDpubRole::DocAbstract => "doc-abstract",
+                AriaDpubRole::DocAcknowledgments => "doc-acknowledgments",
+                AriaDpubRole::DocAfterword => "doc-afterword",
+                AriaDpubRole::DocAppendix => "doc-appendix",
+                AriaDpubRole::DocBacklink => "doc-backlink",
+                AriaDpubRole::DocBiblioentry => "doc-biblioentry",
+                AriaDpubRole::DocBibliography => "doc-bibliography",
+                AriaDpubRole::DocBiblioref => "doc-biblioref",
+                AriaDpubRole::DocChapter => "doc-chapter",
+                AriaDpubRole::DocColophon => "doc-colophon",
+                AriaDpubRole::DocConclusion => "doc-conclusion",
+                AriaDpubRole::DocCover => "doc-cover",
+                AriaDpubRole::DocCredit => "doc-credit",
+                AriaDpubRole::DocCredits => "doc-credits",
+                AriaDpubRole::DocDedication => "doc-dedication",
+                AriaDpubRole::DocEndnote => "doc-endnote",
+                AriaDpubRole::DocEndnotes => "doc-endnotes",
+                AriaDpubRole::DocEpigraph => "doc-epigraph",
+                AriaDpubRole::DocEpilogue => "doc-epilogue",
+                AriaDpubRole::DocErrata => "doc-errata",
+                AriaDpubRole::DocExample => "doc-example",
+                AriaDpubRole::DocFootnote => "doc-footnote",
+                AriaDpubRole::DocForeword => "doc-foreword",
+                AriaDpubRole::DocGlossary => "doc-glossary",
+                AriaDpubRole::DocGlossref => "doc-glossref",
+                AriaDpubRole::DocIndex => "doc-index",
+                AriaDpubRole::DocIntroduction => "doc-introduction",
+                AriaDpubRole::DocNoteref => "doc-noteref",
+                AriaDpubRole::DocNotice => "doc-notice",
+                AriaDpubRole::DocPagebreak => "doc-pagebreak",
+                AriaDpubRole::DocPageheader => "doc-pageheader",
+                AriaDpubRole::DocPagefooter => "doc-pagefooter",
+                AriaDpubRole::DocPagelist => "doc-pagelist",
+                AriaDpubRole::DocPart => "doc-part",
+                AriaDpubRole::DocPreface => "doc-preface",
+                AriaDpubRole::DocPrologue => "doc-prologue",
+                AriaDpubRole::DocPullquote => "doc-pullquote",
+                AriaDpubRole::DocQna => "doc-qna",
+                AriaDpubRole::DocSubtitle => "doc-subtitle",
+                AriaDpubRole::DocTip => "doc-tip",
+                AriaDpubRole::DocToc => "doc-toc",
+            }
+        )
+    }
+}
+
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
 pub enum AriaGraphicsRole {
     GraphicsDocument,
@@ -418,6 +657,20 @@ impl FromStr for AriaGraphicsRole {
             "graphics-symbol" => Ok(AriaGraphicsRole::GraphicsSymbol),
             _ => Err(UnknownRoleError),
         }
+    }
+}
+
+impl Display for AriaGraphicsRole {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        write!(
+            f,
+            "{}",
+            match self {
+                AriaGraphicsRole::GraphicsDocument => "graphics-document",
+                AriaGraphicsRole::GraphicsObject => "graphics-object",
+                AriaGraphicsRole::GraphicsSymbol => "graphics-symbol",
+            }
+        )
     }
 }
 
@@ -472,6 +725,8 @@ pub enum AriaRole {
     DocNoteref,
     DocNotice,
     DocPagebreak,
+    DocPagefooter,
+    DocPageheader,
     DocPagelist,
     DocPart,
     DocPreface,
@@ -550,6 +805,281 @@ pub enum AriaRole {
     Treeitem,
 }
 
+impl FromStr for AriaRole {
+    type Err = UnknownRoleError;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "alert" => Ok(AriaRole::Alert),
+            "alertdialog" => Ok(AriaRole::Alertdialog),
+            "application" => Ok(AriaRole::Application),
+            "article" => Ok(AriaRole::Article),
+            "banner" => Ok(AriaRole::Banner),
+            "blockquote" => Ok(AriaRole::Blockquote),
+            "button" => Ok(AriaRole::Button),
+            "caption" => Ok(AriaRole::Caption),
+            "cell" => Ok(AriaRole::Cell),
+            "checkbox" => Ok(AriaRole::Checkbox),
+            "code" => Ok(AriaRole::Code),
+            "columnheader" => Ok(AriaRole::Columnheader),
+            "combobox" => Ok(AriaRole::Combobox),
+            "complementary" => Ok(AriaRole::Complementary),
+            "contentinfo" => Ok(AriaRole::Contentinfo),
+            "definition" => Ok(AriaRole::Definition),
+            "deletion" => Ok(AriaRole::Deletion),
+            "dialog" => Ok(AriaRole::Dialog),
+            "directory" => Ok(AriaRole::Directory),
+            "doc-abstract" => Ok(AriaRole::DocAbstract),
+            "doc-acknowledgments" => Ok(AriaRole::DocAcknowledgments),
+            "doc-afterword" => Ok(AriaRole::DocAfterword),
+            "doc-appendix" => Ok(AriaRole::DocAppendix),
+            "doc-backlink" => Ok(AriaRole::DocBacklink),
+            "doc-biblioentry" => Ok(AriaRole::DocBiblioentry),
+            "doc-bibliography" => Ok(AriaRole::DocBibliography),
+            "doc-biblioref" => Ok(AriaRole::DocBiblioref),
+            "doc-chapter" => Ok(AriaRole::DocChapter),
+            "doc-colophon" => Ok(AriaRole::DocColophon),
+            "doc-conclusion" => Ok(AriaRole::DocConclusion),
+            "doc-cover" => Ok(AriaRole::DocCover),
+            "doc-credit" => Ok(AriaRole::DocCredit),
+            "doc-credits" => Ok(AriaRole::DocCredits),
+            "doc-dedication" => Ok(AriaRole::DocDedication),
+            "doc-endnote" => Ok(AriaRole::DocEndnote),
+            "doc-endnotes" => Ok(AriaRole::DocEndnotes),
+            "doc-epigraph" => Ok(AriaRole::DocEpigraph),
+            "doc-epilogue" => Ok(AriaRole::DocEpilogue),
+            "doc-errata" => Ok(AriaRole::DocErrata),
+            "doc-example" => Ok(AriaRole::DocExample),
+            "doc-footnote" => Ok(AriaRole::DocFootnote),
+            "doc-foreword" => Ok(AriaRole::DocForeword),
+            "doc-glossary" => Ok(AriaRole::DocGlossary),
+            "doc-glossref" => Ok(AriaRole::DocGlossref),
+            "doc-index" => Ok(AriaRole::DocIndex),
+            "doc-introduction" => Ok(AriaRole::DocIntroduction),
+            "doc-noteref" => Ok(AriaRole::DocNoteref),
+            "doc-notice" => Ok(AriaRole::DocNotice),
+            "doc-pagebreak" => Ok(AriaRole::DocPagebreak),
+            "doc-pagefooter" => Ok(AriaRole::DocPagefooter),
+            "doc-pageheader" => Ok(AriaRole::DocPageheader),
+            "doc-pagelist" => Ok(AriaRole::DocPagelist),
+            "doc-part" => Ok(AriaRole::DocPart),
+            "doc-preface" => Ok(AriaRole::DocPreface),
+            "doc-prologue" => Ok(AriaRole::DocPrologue),
+            "doc-pullquote" => Ok(AriaRole::DocPullquote),
+            "doc-qna" => Ok(AriaRole::DocQna),
+            "doc-subtitle" => Ok(AriaRole::DocSubtitle),
+            "doc-tip" => Ok(AriaRole::DocTip),
+            "doc-toc" => Ok(AriaRole::DocToc),
+            "document" => Ok(AriaRole::Document),
+            "emphasis" => Ok(AriaRole::Emphasis),
+            "feed" => Ok(AriaRole::Feed),
+            "figure" => Ok(AriaRole::Figure),
+            "form" => Ok(AriaRole::Form),
+            "generic" => Ok(AriaRole::Generic),
+            "graphics-document" => Ok(AriaRole::GraphicsDocument),
+            "graphics-object" => Ok(AriaRole::GraphicsObject),
+            "graphics-symbol" => Ok(AriaRole::GraphicsSymbol),
+            "grid" => Ok(AriaRole::Grid),
+            "gridcell" => Ok(AriaRole::Gridcell),
+            "group" => Ok(AriaRole::Group),
+            "heading" => Ok(AriaRole::Heading),
+            "img" => Ok(AriaRole::Img),
+            "insertion" => Ok(AriaRole::Insertion),
+            "link" => Ok(AriaRole::Link),
+            "list" => Ok(AriaRole::List),
+            "listbox" => Ok(AriaRole::Listbox),
+            "listitem" => Ok(AriaRole::Listitem),
+            "log" => Ok(AriaRole::Log),
+            "main" => Ok(AriaRole::Main),
+            "mark" => Ok(AriaRole::Mark),
+            "marquee" => Ok(AriaRole::Marquee),
+            "math" => Ok(AriaRole::Math),
+            "menu" => Ok(AriaRole::Menu),
+            "menubar" => Ok(AriaRole::Menubar),
+            "menuitem" => Ok(AriaRole::Menuitem),
+            "menuitemcheckbox" => Ok(AriaRole::Menuitemcheckbox),
+            "menuitemradio" => Ok(AriaRole::Menuitemradio),
+            "meter" => Ok(AriaRole::Meter),
+            "navigation" => Ok(AriaRole::Navigation),
+            "none" => Ok(AriaRole::None),
+            "note" => Ok(AriaRole::Note),
+            "option" => Ok(AriaRole::Option),
+            "paragraph" => Ok(AriaRole::Paragraph),
+            "presentation" => Ok(AriaRole::Presentation),
+            "progressbar" => Ok(AriaRole::Progressbar),
+            "radio" => Ok(AriaRole::Radio),
+            "radiogroup" => Ok(AriaRole::Radiogroup),
+            "region" => Ok(AriaRole::Region),
+            "row" => Ok(AriaRole::Row),
+            "rowgroup" => Ok(AriaRole::Rowgroup),
+            "rowheader" => Ok(AriaRole::Rowheader),
+            "scrollbar" => Ok(AriaRole::Scrollbar),
+            "search" => Ok(AriaRole::Search),
+            "searchbox" => Ok(AriaRole::Searchbox),
+            "separator" => Ok(AriaRole::Separator),
+            "slider" => Ok(AriaRole::Slider),
+            "spinbutton" => Ok(AriaRole::Spinbutton),
+            "status" => Ok(AriaRole::Status),
+            "strong" => Ok(AriaRole::Strong),
+            "subscript" => Ok(AriaRole::Subscript),
+            "superscript" => Ok(AriaRole::Superscript),
+            "switch" => Ok(AriaRole::Switch),
+            "tab" => Ok(AriaRole::Tab),
+            "table" => Ok(AriaRole::Table),
+            "tablist" => Ok(AriaRole::Tablist),
+            "tabpanel" => Ok(AriaRole::Tabpanel),
+            "term" => Ok(AriaRole::Term),
+            "textbox" => Ok(AriaRole::Textbox),
+            "time" => Ok(AriaRole::Time),
+            "timer" => Ok(AriaRole::Timer),
+            "toolbar" => Ok(AriaRole::Toolbar),
+            "tooltip" => Ok(AriaRole::Tooltip),
+            "tree" => Ok(AriaRole::Tree),
+            "treegrid" => Ok(AriaRole::Treegrid),
+            "treeitem" => Ok(AriaRole::Treeitem),
+            _ => Err(UnknownRoleError),
+        }
+    }
+}
+
+impl Display for AriaRole {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        write!(
+            f,
+            "{}",
+            match self {
+                AriaRole::Alert => "alert",
+                AriaRole::Alertdialog => "alertdialog",
+                AriaRole::Application => "application",
+                AriaRole::Article => "article",
+                AriaRole::Banner => "banner",
+                AriaRole::Blockquote => "blockquote",
+                AriaRole::Button => "button",
+                AriaRole::Caption => "caption",
+                AriaRole::Cell => "cell",
+                AriaRole::Checkbox => "checkbox",
+                AriaRole::Code => "code",
+                AriaRole::Columnheader => "columnheader",
+                AriaRole::Combobox => "combobox",
+                AriaRole::Complementary => "complementary",
+                AriaRole::Contentinfo => "contentinfo",
+                AriaRole::Definition => "definition",
+                AriaRole::Deletion => "deletion",
+                AriaRole::Dialog => "dialog",
+                AriaRole::Directory => "directory",
+                AriaRole::DocAbstract => "doc-abstract",
+                AriaRole::DocAcknowledgments => "doc-acknowledgments",
+                AriaRole::DocAfterword => "doc-afterword",
+                AriaRole::DocAppendix => "doc-appendix",
+                AriaRole::DocBacklink => "doc-backlink",
+                AriaRole::DocBiblioentry => "doc-biblioentry",
+                AriaRole::DocBibliography => "doc-bibliography",
+                AriaRole::DocBiblioref => "doc-biblioref",
+                AriaRole::DocChapter => "doc-chapter",
+                AriaRole::DocColophon => "doc-colophon",
+                AriaRole::DocConclusion => "doc-conclusion",
+                AriaRole::DocCover => "doc-cover",
+                AriaRole::DocCredit => "doc-credit",
+                AriaRole::DocCredits => "doc-credits",
+                AriaRole::DocDedication => "doc-dedication",
+                AriaRole::DocEndnote => "doc-endnote",
+                AriaRole::DocEndnotes => "doc-endnotes",
+                AriaRole::DocEpigraph => "doc-epigraph",
+                AriaRole::DocEpilogue => "doc-epilogue",
+                AriaRole::DocErrata => "doc-errata",
+                AriaRole::DocExample => "doc-example",
+                AriaRole::DocFootnote => "doc-footnote",
+                AriaRole::DocForeword => "doc-foreword",
+                AriaRole::DocGlossary => "doc-glossary",
+                AriaRole::DocGlossref => "doc-glossref",
+                AriaRole::DocIndex => "doc-index",
+                AriaRole::DocIntroduction => "doc-introduction",
+                AriaRole::DocNoteref => "doc-noteref",
+                AriaRole::DocNotice => "doc-notice",
+                AriaRole::DocPagebreak => "doc-pagebreak",
+                AriaRole::DocPagefooter => "doc-pagefooter",
+                AriaRole::DocPageheader => "doc-pageheader",
+                AriaRole::DocPagelist => "doc-pagelist",
+                AriaRole::DocPart => "doc-part",
+                AriaRole::DocPreface => "doc-preface",
+                AriaRole::DocPrologue => "doc-prologue",
+                AriaRole::DocPullquote => "doc-pullquote",
+                AriaRole::DocQna => "doc-qna",
+                AriaRole::DocSubtitle => "doc-subtitle",
+                AriaRole::DocTip => "doc-tip",
+                AriaRole::DocToc => "doc-toc",
+                AriaRole::Document => "document",
+                AriaRole::Emphasis => "emphasis",
+                AriaRole::Feed => "feed",
+                AriaRole::Figure => "figure",
+                AriaRole::Form => "form",
+                AriaRole::Generic => "generic",
+                AriaRole::GraphicsDocument => "graphics-document",
+                AriaRole::GraphicsObject => "graphics-object",
+                AriaRole::GraphicsSymbol => "graphics-symbol",
+                AriaRole::Grid => "grid",
+                AriaRole::Gridcell => "gridcell",
+                AriaRole::Group => "group",
+                AriaRole::Heading => "heading",
+                AriaRole::Img => "img",
+                AriaRole::Insertion => "insertion",
+                AriaRole::Link => "link",
+                AriaRole::List => "list",
+                AriaRole::Listbox => "listbox",
+                AriaRole::Listitem => "listitem",
+                AriaRole::Log => "log",
+                AriaRole::Main => "main",
+                AriaRole::Mark => "mark",
+                AriaRole::Marquee => "marquee",
+                AriaRole::Math => "math",
+                AriaRole::Menu => "menu",
+                AriaRole::Menubar => "menubar",
+                AriaRole::Menuitem => "menuitem",
+                AriaRole::Menuitemcheckbox => "menuitemcheckbox",
+                AriaRole::Menuitemradio => "menuitemradio",
+                AriaRole::Meter => "meter",
+                AriaRole::Navigation => "navigation",
+                AriaRole::None => "none",
+                AriaRole::Note => "note",
+                AriaRole::Option => "option",
+                AriaRole::Paragraph => "paragraph",
+                AriaRole::Presentation => "presentation",
+                AriaRole::Progressbar => "progressbar",
+                AriaRole::Radio => "radio",
+                AriaRole::Radiogroup => "radiogroup",
+                AriaRole::Region => "region",
+                AriaRole::Row => "row",
+                AriaRole::Rowgroup => "rowgroup",
+                AriaRole::Rowheader => "rowheader",
+                AriaRole::Scrollbar => "scrollbar",
+                AriaRole::Search => "search",
+                AriaRole::Searchbox => "searchbox",
+                AriaRole::Separator => "separator",
+                AriaRole::Slider => "slider",
+                AriaRole::Spinbutton => "spinbutton",
+                AriaRole::Status => "status",
+                AriaRole::Strong => "strong",
+                AriaRole::Subscript => "subscript",
+                AriaRole::Superscript => "superscript",
+                AriaRole::Switch => "switch",
+                AriaRole::Tab => "tab",
+                AriaRole::Table => "table",
+                AriaRole::Tablist => "tablist",
+                AriaRole::Tabpanel => "tabpanel",
+                AriaRole::Term => "term",
+                AriaRole::Textbox => "textbox",
+                AriaRole::Time => "time",
+                AriaRole::Timer => "timer",
+                AriaRole::Toolbar => "toolbar",
+                AriaRole::Tooltip => "tooltip",
+                AriaRole::Tree => "tree",
+                AriaRole::Treegrid => "treegrid",
+                AriaRole::Treeitem => "treeitem",
+            }
+        )
+    }
+}
+
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
 pub enum AriaRoleDefinitionKey {
     Alert,
@@ -603,8 +1133,8 @@ pub enum AriaRoleDefinitionKey {
     DocNoteref,
     DocNotice,
     DocPagebreak,
-    DocPageheader,
     DocPagefooter,
+    DocPageheader,
     DocPagelist,
     DocPart,
     DocPreface,
@@ -764,6 +1294,8 @@ impl From<AriaRole> for AriaRoleDefinitionKey {
             AriaRole::DocNoteref => AriaRoleDefinitionKey::DocNoteref,
             AriaRole::DocNotice => AriaRoleDefinitionKey::DocNotice,
             AriaRole::DocPagebreak => AriaRoleDefinitionKey::DocPagebreak,
+            AriaRole::DocPagefooter => AriaRoleDefinitionKey::DocPagefooter,
+            AriaRole::DocPageheader => AriaRoleDefinitionKey::DocPageheader,
             AriaRole::DocPagelist => AriaRoleDefinitionKey::DocPagelist,
             AriaRole::DocPart => AriaRoleDefinitionKey::DocPart,
             AriaRole::DocPreface => AriaRoleDefinitionKey::DocPreface,
@@ -844,6 +1376,305 @@ impl From<AriaRole> for AriaRoleDefinitionKey {
     }
 }
 
+impl FromStr for AriaRoleDefinitionKey {
+    type Err = UnknownRoleError;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "alert" => Ok(AriaRoleDefinitionKey::Alert),
+            "alertdialog" => Ok(AriaRoleDefinitionKey::Alertdialog),
+            "application" => Ok(AriaRoleDefinitionKey::Application),
+            "article" => Ok(AriaRoleDefinitionKey::Article),
+            "banner" => Ok(AriaRoleDefinitionKey::Banner),
+            "blockquote" => Ok(AriaRoleDefinitionKey::Blockquote),
+            "button" => Ok(AriaRoleDefinitionKey::Button),
+            "caption" => Ok(AriaRoleDefinitionKey::Caption),
+            "cell" => Ok(AriaRoleDefinitionKey::Cell),
+            "checkbox" => Ok(AriaRoleDefinitionKey::Checkbox),
+            "code" => Ok(AriaRoleDefinitionKey::Code),
+            "columnheader" => Ok(AriaRoleDefinitionKey::Columnheader),
+            "combobox" => Ok(AriaRoleDefinitionKey::Combobox),
+            "command" => Ok(AriaRoleDefinitionKey::Command),
+            "complementary" => Ok(AriaRoleDefinitionKey::Complementary),
+            "composite" => Ok(AriaRoleDefinitionKey::Composite),
+            "contentinfo" => Ok(AriaRoleDefinitionKey::Contentinfo),
+            "definition" => Ok(AriaRoleDefinitionKey::Definition),
+            "deletion" => Ok(AriaRoleDefinitionKey::Deletion),
+            "dialog" => Ok(AriaRoleDefinitionKey::Dialog),
+            "directory" => Ok(AriaRoleDefinitionKey::Directory),
+            "doc-abstract" => Ok(AriaRoleDefinitionKey::DocAbstract),
+            "doc-acknowledgments" => Ok(AriaRoleDefinitionKey::DocAcknowledgments),
+            "doc-afterword" => Ok(AriaRoleDefinitionKey::DocAfterword),
+            "doc-appendix" => Ok(AriaRoleDefinitionKey::DocAppendix),
+            "doc-backlink" => Ok(AriaRoleDefinitionKey::DocBacklink),
+            "doc-biblioentry" => Ok(AriaRoleDefinitionKey::DocBiblioentry),
+            "doc-bibliography" => Ok(AriaRoleDefinitionKey::DocBibliography),
+            "doc-biblioref" => Ok(AriaRoleDefinitionKey::DocBiblioref),
+            "doc-chapter" => Ok(AriaRoleDefinitionKey::DocChapter),
+            "doc-colophon" => Ok(AriaRoleDefinitionKey::DocColophon),
+            "doc-conclusion" => Ok(AriaRoleDefinitionKey::DocConclusion),
+            "doc-cover" => Ok(AriaRoleDefinitionKey::DocCover),
+            "doc-credit" => Ok(AriaRoleDefinitionKey::DocCredit),
+            "doc-credits" => Ok(AriaRoleDefinitionKey::DocCredits),
+            "doc-dedication" => Ok(AriaRoleDefinitionKey::DocDedication),
+            "doc-endnote" => Ok(AriaRoleDefinitionKey::DocEndnote),
+            "doc-endnotes" => Ok(AriaRoleDefinitionKey::DocEndnotes),
+            "doc-epigraph" => Ok(AriaRoleDefinitionKey::DocEpigraph),
+            "doc-epilogue" => Ok(AriaRoleDefinitionKey::DocEpilogue),
+            "doc-errata" => Ok(AriaRoleDefinitionKey::DocErrata),
+            "doc-example" => Ok(AriaRoleDefinitionKey::DocExample),
+            "doc-footnote" => Ok(AriaRoleDefinitionKey::DocFootnote),
+            "doc-foreword" => Ok(AriaRoleDefinitionKey::DocForeword),
+            "doc-glossary" => Ok(AriaRoleDefinitionKey::DocGlossary),
+            "doc-glossref" => Ok(AriaRoleDefinitionKey::DocGlossref),
+            "doc-index" => Ok(AriaRoleDefinitionKey::DocIndex),
+            "doc-introduction" => Ok(AriaRoleDefinitionKey::DocIntroduction),
+            "doc-noteref" => Ok(AriaRoleDefinitionKey::DocNoteref),
+            "doc-notice" => Ok(AriaRoleDefinitionKey::DocNotice),
+            "doc-pagebreak" => Ok(AriaRoleDefinitionKey::DocPagebreak),
+            "doc-pagefooter" => Ok(AriaRoleDefinitionKey::DocPagefooter),
+            "doc-pageheader" => Ok(AriaRoleDefinitionKey::DocPageheader),
+            "doc-pagelist" => Ok(AriaRoleDefinitionKey::DocPagelist),
+            "doc-part" => Ok(AriaRoleDefinitionKey::DocPart),
+            "doc-preface" => Ok(AriaRoleDefinitionKey::DocPreface),
+            "doc-prologue" => Ok(AriaRoleDefinitionKey::DocPrologue),
+            "doc-pullquote" => Ok(AriaRoleDefinitionKey::DocPullquote),
+            "doc-qna" => Ok(AriaRoleDefinitionKey::DocQna),
+            "doc-subtitle" => Ok(AriaRoleDefinitionKey::DocSubtitle),
+            "doc-tip" => Ok(AriaRoleDefinitionKey::DocTip),
+            "doc-toc" => Ok(AriaRoleDefinitionKey::DocToc),
+            "document" => Ok(AriaRoleDefinitionKey::Document),
+            "emphasis" => Ok(AriaRoleDefinitionKey::Emphasis),
+            "feed" => Ok(AriaRoleDefinitionKey::Feed),
+            "figure" => Ok(AriaRoleDefinitionKey::Figure),
+            "form" => Ok(AriaRoleDefinitionKey::Form),
+            "generic" => Ok(AriaRoleDefinitionKey::Generic),
+            "graphics-document" => Ok(AriaRoleDefinitionKey::GraphicsDocument),
+            "graphics-object" => Ok(AriaRoleDefinitionKey::GraphicsObject),
+            "graphics-symbol" => Ok(AriaRoleDefinitionKey::GraphicsSymbol),
+            "grid" => Ok(AriaRoleDefinitionKey::Grid),
+            "gridcell" => Ok(AriaRoleDefinitionKey::Gridcell),
+            "group" => Ok(AriaRoleDefinitionKey::Group),
+            "heading" => Ok(AriaRoleDefinitionKey::Heading),
+            "img" => Ok(AriaRoleDefinitionKey::Img),
+            "input" => Ok(AriaRoleDefinitionKey::Input),
+            "insertion" => Ok(AriaRoleDefinitionKey::Insertion),
+            "landmark" => Ok(AriaRoleDefinitionKey::Landmark),
+            "link" => Ok(AriaRoleDefinitionKey::Link),
+            "list" => Ok(AriaRoleDefinitionKey::List),
+            "listbox" => Ok(AriaRoleDefinitionKey::Listbox),
+            "listitem" => Ok(AriaRoleDefinitionKey::Listitem),
+            "log" => Ok(AriaRoleDefinitionKey::Log),
+            "main" => Ok(AriaRoleDefinitionKey::Main),
+            "mark" => Ok(AriaRoleDefinitionKey::Mark),
+            "marquee" => Ok(AriaRoleDefinitionKey::Marquee),
+            "math" => Ok(AriaRoleDefinitionKey::Math),
+            "menu" => Ok(AriaRoleDefinitionKey::Menu),
+            "menubar" => Ok(AriaRoleDefinitionKey::Menubar),
+            "menuitem" => Ok(AriaRoleDefinitionKey::Menuitem),
+            "menuitemcheckbox" => Ok(AriaRoleDefinitionKey::Menuitemcheckbox),
+            "menuitemradio" => Ok(AriaRoleDefinitionKey::Menuitemradio),
+            "meter" => Ok(AriaRoleDefinitionKey::Meter),
+            "navigation" => Ok(AriaRoleDefinitionKey::Navigation),
+            "none" => Ok(AriaRoleDefinitionKey::None),
+            "note" => Ok(AriaRoleDefinitionKey::Note),
+            "option" => Ok(AriaRoleDefinitionKey::Option),
+            "paragraph" => Ok(AriaRoleDefinitionKey::Paragraph),
+            "presentation" => Ok(AriaRoleDefinitionKey::Presentation),
+            "progressbar" => Ok(AriaRoleDefinitionKey::Progressbar),
+            "radio" => Ok(AriaRoleDefinitionKey::Radio),
+            "radiogroup" => Ok(AriaRoleDefinitionKey::Radiogroup),
+            "range" => Ok(AriaRoleDefinitionKey::Range),
+            "region" => Ok(AriaRoleDefinitionKey::Region),
+            "roletype" => Ok(AriaRoleDefinitionKey::Roletype),
+            "row" => Ok(AriaRoleDefinitionKey::Row),
+            "rowgroup" => Ok(AriaRoleDefinitionKey::Rowgroup),
+            "rowheader" => Ok(AriaRoleDefinitionKey::Rowheader),
+            "scrollbar" => Ok(AriaRoleDefinitionKey::Scrollbar),
+            "search" => Ok(AriaRoleDefinitionKey::Search),
+            "searchbox" => Ok(AriaRoleDefinitionKey::Searchbox),
+            "section" => Ok(AriaRoleDefinitionKey::Section),
+            "sectionhead" => Ok(AriaRoleDefinitionKey::Sectionhead),
+            "select" => Ok(AriaRoleDefinitionKey::Select),
+            "separator" => Ok(AriaRoleDefinitionKey::Separator),
+            "slider" => Ok(AriaRoleDefinitionKey::Slider),
+            "spinbutton" => Ok(AriaRoleDefinitionKey::Spinbutton),
+            "status" => Ok(AriaRoleDefinitionKey::Status),
+            "strong" => Ok(AriaRoleDefinitionKey::Strong),
+            "structure" => Ok(AriaRoleDefinitionKey::Structure),
+            "subscript" => Ok(AriaRoleDefinitionKey::Subscript),
+            "superscript" => Ok(AriaRoleDefinitionKey::Superscript),
+            "switch" => Ok(AriaRoleDefinitionKey::Switch),
+            "tab" => Ok(AriaRoleDefinitionKey::Tab),
+            "table" => Ok(AriaRoleDefinitionKey::Table),
+            "tablist" => Ok(AriaRoleDefinitionKey::Tablist),
+            "tabpanel" => Ok(AriaRoleDefinitionKey::Tabpanel),
+            "term" => Ok(AriaRoleDefinitionKey::Term),
+            "textbox" => Ok(AriaRoleDefinitionKey::Textbox),
+            "time" => Ok(AriaRoleDefinitionKey::Time),
+            "timer" => Ok(AriaRoleDefinitionKey::Timer),
+            "toolbar" => Ok(AriaRoleDefinitionKey::Toolbar),
+            "tooltip" => Ok(AriaRoleDefinitionKey::Tooltip),
+            "tree" => Ok(AriaRoleDefinitionKey::Tree),
+            "treegrid" => Ok(AriaRoleDefinitionKey::Treegrid),
+            "treeitem" => Ok(AriaRoleDefinitionKey::Treeitem),
+            "widget" => Ok(AriaRoleDefinitionKey::Widget),
+            "window" => Ok(AriaRoleDefinitionKey::Window),
+            _ => Err(UnknownRoleError),
+        }
+    }
+}
+
+impl Display for AriaRoleDefinitionKey {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        write!(
+            f,
+            "{}",
+            match self {
+                AriaRoleDefinitionKey::Alert => "alert",
+                AriaRoleDefinitionKey::Alertdialog => "alertdialog",
+                AriaRoleDefinitionKey::Application => "application",
+                AriaRoleDefinitionKey::Article => "article",
+                AriaRoleDefinitionKey::Banner => "banner",
+                AriaRoleDefinitionKey::Blockquote => "blockquote",
+                AriaRoleDefinitionKey::Button => "button",
+                AriaRoleDefinitionKey::Caption => "caption",
+                AriaRoleDefinitionKey::Cell => "cell",
+                AriaRoleDefinitionKey::Checkbox => "checkbox",
+                AriaRoleDefinitionKey::Code => "code",
+                AriaRoleDefinitionKey::Columnheader => "columnheader",
+                AriaRoleDefinitionKey::Combobox => "combobox",
+                AriaRoleDefinitionKey::Command => "command",
+                AriaRoleDefinitionKey::Complementary => "complementary",
+                AriaRoleDefinitionKey::Composite => "composite",
+                AriaRoleDefinitionKey::Contentinfo => "contentinfo",
+                AriaRoleDefinitionKey::Definition => "definition",
+                AriaRoleDefinitionKey::Deletion => "deletion",
+                AriaRoleDefinitionKey::Dialog => "dialog",
+                AriaRoleDefinitionKey::Directory => "directory",
+                AriaRoleDefinitionKey::DocAbstract => "doc-abstract",
+                AriaRoleDefinitionKey::DocAcknowledgments => "doc-acknowledgments",
+                AriaRoleDefinitionKey::DocAfterword => "doc-afterword",
+                AriaRoleDefinitionKey::DocAppendix => "doc-appendix",
+                AriaRoleDefinitionKey::DocBacklink => "doc-backlink",
+                AriaRoleDefinitionKey::DocBiblioentry => "doc-biblioentry",
+                AriaRoleDefinitionKey::DocBibliography => "doc-bibliography",
+                AriaRoleDefinitionKey::DocBiblioref => "doc-biblioref",
+                AriaRoleDefinitionKey::DocChapter => "doc-chapter",
+                AriaRoleDefinitionKey::DocColophon => "doc-colophon",
+                AriaRoleDefinitionKey::DocConclusion => "doc-conclusion",
+                AriaRoleDefinitionKey::DocCover => "doc-cover",
+                AriaRoleDefinitionKey::DocCredit => "doc-credit",
+                AriaRoleDefinitionKey::DocCredits => "doc-credits",
+                AriaRoleDefinitionKey::DocDedication => "doc-dedication",
+                AriaRoleDefinitionKey::DocEndnote => "doc-endnote",
+                AriaRoleDefinitionKey::DocEndnotes => "doc-endnotes",
+                AriaRoleDefinitionKey::DocEpigraph => "doc-epigraph",
+                AriaRoleDefinitionKey::DocEpilogue => "doc-epilogue",
+                AriaRoleDefinitionKey::DocErrata => "doc-errata",
+                AriaRoleDefinitionKey::DocExample => "doc-example",
+                AriaRoleDefinitionKey::DocFootnote => "doc-footnote",
+                AriaRoleDefinitionKey::DocForeword => "doc-foreword",
+                AriaRoleDefinitionKey::DocGlossary => "doc-glossary",
+                AriaRoleDefinitionKey::DocGlossref => "doc-glossref",
+                AriaRoleDefinitionKey::DocIndex => "doc-index",
+                AriaRoleDefinitionKey::DocIntroduction => "doc-introduction",
+                AriaRoleDefinitionKey::DocNoteref => "doc-noteref",
+                AriaRoleDefinitionKey::DocNotice => "doc-notice",
+                AriaRoleDefinitionKey::DocPagebreak => "doc-pagebreak",
+                AriaRoleDefinitionKey::DocPagefooter => "doc-pagefooter",
+                AriaRoleDefinitionKey::DocPageheader => "doc-pageheader",
+                AriaRoleDefinitionKey::DocPagelist => "doc-pagelist",
+                AriaRoleDefinitionKey::DocPart => "doc-part",
+                AriaRoleDefinitionKey::DocPreface => "doc-preface",
+                AriaRoleDefinitionKey::DocPrologue => "doc-prologue",
+                AriaRoleDefinitionKey::DocPullquote => "doc-pullquote",
+                AriaRoleDefinitionKey::DocQna => "doc-qna",
+                AriaRoleDefinitionKey::DocSubtitle => "doc-subtitle",
+                AriaRoleDefinitionKey::DocTip => "doc-tip",
+                AriaRoleDefinitionKey::DocToc => "doc-toc",
+                AriaRoleDefinitionKey::Document => "document",
+                AriaRoleDefinitionKey::Emphasis => "emphasis",
+                AriaRoleDefinitionKey::Feed => "feed",
+                AriaRoleDefinitionKey::Figure => "figure",
+                AriaRoleDefinitionKey::Form => "form",
+                AriaRoleDefinitionKey::Generic => "generic",
+                AriaRoleDefinitionKey::GraphicsDocument => "graphics-document",
+                AriaRoleDefinitionKey::GraphicsObject => "graphics-object",
+                AriaRoleDefinitionKey::GraphicsSymbol => "graphics-symbol",
+                AriaRoleDefinitionKey::Grid => "grid",
+                AriaRoleDefinitionKey::Gridcell => "gridcell",
+                AriaRoleDefinitionKey::Group => "group",
+                AriaRoleDefinitionKey::Heading => "heading",
+                AriaRoleDefinitionKey::Img => "img",
+                AriaRoleDefinitionKey::Input => "input",
+                AriaRoleDefinitionKey::Insertion => "insertion",
+                AriaRoleDefinitionKey::Landmark => "landmark",
+                AriaRoleDefinitionKey::Link => "link",
+                AriaRoleDefinitionKey::List => "list",
+                AriaRoleDefinitionKey::Listbox => "listbox",
+                AriaRoleDefinitionKey::Listitem => "listitem",
+                AriaRoleDefinitionKey::Log => "log",
+                AriaRoleDefinitionKey::Main => "main",
+                AriaRoleDefinitionKey::Mark => "mark",
+                AriaRoleDefinitionKey::Marquee => "marquee",
+                AriaRoleDefinitionKey::Math => "math",
+                AriaRoleDefinitionKey::Menu => "menu",
+                AriaRoleDefinitionKey::Menubar => "menubar",
+                AriaRoleDefinitionKey::Menuitem => "menuitem",
+                AriaRoleDefinitionKey::Menuitemcheckbox => "menuitemcheckbox",
+                AriaRoleDefinitionKey::Menuitemradio => "menuitemradio",
+                AriaRoleDefinitionKey::Meter => "meter",
+                AriaRoleDefinitionKey::Navigation => "navigation",
+                AriaRoleDefinitionKey::None => "none",
+                AriaRoleDefinitionKey::Note => "note",
+                AriaRoleDefinitionKey::Option => "option",
+                AriaRoleDefinitionKey::Paragraph => "paragraph",
+                AriaRoleDefinitionKey::Presentation => "presentation",
+                AriaRoleDefinitionKey::Progressbar => "progressbar",
+                AriaRoleDefinitionKey::Radio => "radio",
+                AriaRoleDefinitionKey::Radiogroup => "radiogroup",
+                AriaRoleDefinitionKey::Range => "range",
+                AriaRoleDefinitionKey::Region => "region",
+                AriaRoleDefinitionKey::Roletype => "roletype",
+                AriaRoleDefinitionKey::Row => "row",
+                AriaRoleDefinitionKey::Rowgroup => "rowgroup",
+                AriaRoleDefinitionKey::Rowheader => "rowheader",
+                AriaRoleDefinitionKey::Scrollbar => "scrollbar",
+                AriaRoleDefinitionKey::Search => "search",
+                AriaRoleDefinitionKey::Searchbox => "searchbox",
+                AriaRoleDefinitionKey::Section => "section",
+                AriaRoleDefinitionKey::Sectionhead => "sectionhead",
+                AriaRoleDefinitionKey::Select => "select",
+                AriaRoleDefinitionKey::Separator => "separator",
+                AriaRoleDefinitionKey::Slider => "slider",
+                AriaRoleDefinitionKey::Spinbutton => "spinbutton",
+                AriaRoleDefinitionKey::Status => "status",
+                AriaRoleDefinitionKey::Strong => "strong",
+                AriaRoleDefinitionKey::Structure => "structure",
+                AriaRoleDefinitionKey::Subscript => "subscript",
+                AriaRoleDefinitionKey::Superscript => "superscript",
+                AriaRoleDefinitionKey::Switch => "switch",
+                AriaRoleDefinitionKey::Tab => "tab",
+                AriaRoleDefinitionKey::Table => "table",
+                AriaRoleDefinitionKey::Tablist => "tablist",
+                AriaRoleDefinitionKey::Tabpanel => "tabpanel",
+                AriaRoleDefinitionKey::Term => "term",
+                AriaRoleDefinitionKey::Textbox => "textbox",
+                AriaRoleDefinitionKey::Time => "time",
+                AriaRoleDefinitionKey::Timer => "timer",
+                AriaRoleDefinitionKey::Toolbar => "toolbar",
+                AriaRoleDefinitionKey::Tooltip => "tooltip",
+                AriaRoleDefinitionKey::Tree => "tree",
+                AriaRoleDefinitionKey::Treegrid => "treegrid",
+                AriaRoleDefinitionKey::Treeitem => "treeitem",
+                AriaRoleDefinitionKey::Widget => "widget",
+                AriaRoleDefinitionKey::Window => "window",
+            }
+        )
+    }
+}
+
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
 pub enum AriaNameFromSource {
     Author,
@@ -851,7 +1682,7 @@ pub enum AriaNameFromSource {
     Prohibited,
 }
 
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct AriaRoleDefinition {
     pub r#abstract: bool,
     pub accessible_name_required: bool,
@@ -868,11 +1699,14 @@ pub struct AriaRoleDefinition {
     pub super_class: Vec<Vec<AriaRoleDefinitionSuperClass>>,
 }
 
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub enum AriaRoleDefinitionSuperClass {
     AbstractRole(AriaAbstractRole),
     Role(AriaRole),
 }
+
+#[derive(Debug, PartialEq, Eq)]
+pub struct UnknownStateError;
 
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
 pub enum AriaState {
@@ -886,6 +1720,48 @@ pub enum AriaState {
     AriaPressed,
     AriaSelected,
 }
+
+impl FromStr for AriaState {
+    type Err = UnknownStateError;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "aria-busy" => Ok(AriaState::AriaBusy),
+            "aria-checked" => Ok(AriaState::AriaChecked),
+            "aria-disabled" => Ok(AriaState::AriaDisabled),
+            "aria-expanded" => Ok(AriaState::AriaExpanded),
+            "aria-grabbed" => Ok(AriaState::AriaGrabbed),
+            "aria-hidden" => Ok(AriaState::AriaHidden),
+            "aria-invalid" => Ok(AriaState::AriaInvalid),
+            "aria-pressed" => Ok(AriaState::AriaPressed),
+            "aria-selected" => Ok(AriaState::AriaSelected),
+            _ => Err(UnknownStateError),
+        }
+    }
+}
+
+impl Display for AriaState {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        write!(
+            f,
+            "{}",
+            match self {
+                AriaState::AriaBusy => "aria-busy",
+                AriaState::AriaChecked => "aria-checked",
+                AriaState::AriaDisabled => "aria-disabled",
+                AriaState::AriaExpanded => "aria-expanded",
+                AriaState::AriaGrabbed => "aria-grabbed",
+                AriaState::AriaHidden => "aria-hidden",
+                AriaState::AriaInvalid => "aria-invalid",
+                AriaState::AriaPressed => "aria-pressed",
+                AriaState::AriaSelected => "aria-selected",
+            }
+        )
+    }
+}
+
+#[derive(Debug, PartialEq, Eq)]
+pub struct UnknownPropertyError;
 
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
 pub enum AriaProperty {
@@ -942,9 +1818,132 @@ pub enum AriaProperty {
     AriaValuetext,
 }
 
+impl FromStr for AriaProperty {
+    type Err = UnknownPropertyError;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "aria-activedescendant" => Ok(AriaProperty::AriaActivedescendant),
+            "aria-atomic" => Ok(AriaProperty::AriaAtomic),
+            "aria-autocomplete" => Ok(AriaProperty::AriaAutocomplete),
+            "aria-braillelabel" => Ok(AriaProperty::AriaBraillelabel),
+            "aria-brailleroledescription" => Ok(AriaProperty::AriaBrailleroledescription),
+            "aria-busy" => Ok(AriaProperty::AriaBusy),
+            "aria-checked" => Ok(AriaProperty::AriaChecked),
+            "aria-colcount" => Ok(AriaProperty::AriaColcount),
+            "aria-colindex" => Ok(AriaProperty::AriaColindex),
+            "aria-colspan" => Ok(AriaProperty::AriaColspan),
+            "aria-controls" => Ok(AriaProperty::AriaControls),
+            "aria-current" => Ok(AriaProperty::AriaCurrent),
+            "aria-describedby" => Ok(AriaProperty::AriaDescribedby),
+            "aria-description" => Ok(AriaProperty::AriaDescription),
+            "aria-details" => Ok(AriaProperty::AriaDetails),
+            "aria-disabled" => Ok(AriaProperty::AriaDisabled),
+            "aria-dropeffect" => Ok(AriaProperty::AriaDropeffect),
+            "aria-errormessage" => Ok(AriaProperty::AriaErrormessage),
+            "aria-expanded" => Ok(AriaProperty::AriaExpanded),
+            "aria-flowto" => Ok(AriaProperty::AriaFlowto),
+            "aria-grabbed" => Ok(AriaProperty::AriaGrabbed),
+            "aria-haspopup" => Ok(AriaProperty::AriaHaspopup),
+            "aria-hidden" => Ok(AriaProperty::AriaHidden),
+            "aria-invalid" => Ok(AriaProperty::AriaInvalid),
+            "aria-keyshortcuts" => Ok(AriaProperty::AriaKeyshortcuts),
+            "aria-label" => Ok(AriaProperty::AriaLabel),
+            "aria-labelledby" => Ok(AriaProperty::AriaLabelledby),
+            "aria-level" => Ok(AriaProperty::AriaLevel),
+            "aria-live" => Ok(AriaProperty::AriaLive),
+            "aria-modal" => Ok(AriaProperty::AriaModal),
+            "aria-multiline" => Ok(AriaProperty::AriaMultiline),
+            "aria-multiselectable" => Ok(AriaProperty::AriaMultiselectable),
+            "aria-orientation" => Ok(AriaProperty::AriaOrientation),
+            "aria-owns" => Ok(AriaProperty::AriaOwns),
+            "aria-placeholder" => Ok(AriaProperty::AriaPlaceholder),
+            "aria-posinset" => Ok(AriaProperty::AriaPosinset),
+            "aria-pressed" => Ok(AriaProperty::AriaPressed),
+            "aria-readonly" => Ok(AriaProperty::AriaReadonly),
+            "aria-relevant" => Ok(AriaProperty::AriaRelevant),
+            "aria-required" => Ok(AriaProperty::AriaRequired),
+            "aria-roledescription" => Ok(AriaProperty::AriaRoledescription),
+            "aria-rowcount" => Ok(AriaProperty::AriaRowcount),
+            "aria-rowindex" => Ok(AriaProperty::AriaRowindex),
+            "aria-rowspan" => Ok(AriaProperty::AriaRowspan),
+            "aria-selected" => Ok(AriaProperty::AriaSelected),
+            "aria-setsize" => Ok(AriaProperty::AriaSetsize),
+            "aria-sort" => Ok(AriaProperty::AriaSort),
+            "aria-valuemax" => Ok(AriaProperty::AriaValuemax),
+            "aria-valuemin" => Ok(AriaProperty::AriaValuemin),
+            "aria-valuenow" => Ok(AriaProperty::AriaValuenow),
+            "aria-valuetext" => Ok(AriaProperty::AriaValuetext),
+            _ => Err(UnknownPropertyError),
+        }
+    }
+}
+
+impl Display for AriaProperty {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        write!(
+            f,
+            "{}",
+            match self {
+                AriaProperty::AriaActivedescendant => "aria-activedescendant",
+                AriaProperty::AriaAtomic => "aria-atomic",
+                AriaProperty::AriaAutocomplete => "aria-autocomplete",
+                AriaProperty::AriaBraillelabel => "aria-braillelabel",
+                AriaProperty::AriaBrailleroledescription => "aria-brailleroledescription",
+                AriaProperty::AriaBusy => "aria-busy",
+                AriaProperty::AriaChecked => "aria-checked",
+                AriaProperty::AriaColcount => "aria-colcount",
+                AriaProperty::AriaColindex => "aria-colindex",
+                AriaProperty::AriaColspan => "aria-colspan",
+                AriaProperty::AriaControls => "aria-controls",
+                AriaProperty::AriaCurrent => "aria-current",
+                AriaProperty::AriaDescribedby => "aria-describedby",
+                AriaProperty::AriaDescription => "aria-description",
+                AriaProperty::AriaDetails => "aria-details",
+                AriaProperty::AriaDisabled => "aria-disabled",
+                AriaProperty::AriaDropeffect => "aria-dropeffect",
+                AriaProperty::AriaErrormessage => "aria-errormessage",
+                AriaProperty::AriaExpanded => "aria-expanded",
+                AriaProperty::AriaFlowto => "aria-flowto",
+                AriaProperty::AriaGrabbed => "aria-grabbed",
+                AriaProperty::AriaHaspopup => "aria-haspopup",
+                AriaProperty::AriaHidden => "aria-hidden",
+                AriaProperty::AriaInvalid => "aria-invalid",
+                AriaProperty::AriaKeyshortcuts => "aria-keyshortcuts",
+                AriaProperty::AriaLabel => "aria-label",
+                AriaProperty::AriaLabelledby => "aria-labelledby",
+                AriaProperty::AriaLevel => "aria-level",
+                AriaProperty::AriaLive => "aria-live",
+                AriaProperty::AriaModal => "aria-modal",
+                AriaProperty::AriaMultiline => "aria-multiline",
+                AriaProperty::AriaMultiselectable => "aria-multiselectable",
+                AriaProperty::AriaOrientation => "aria-orientation",
+                AriaProperty::AriaOwns => "aria-owns",
+                AriaProperty::AriaPlaceholder => "aria-placeholder",
+                AriaProperty::AriaPosinset => "aria-posinset",
+                AriaProperty::AriaPressed => "aria-pressed",
+                AriaProperty::AriaReadonly => "aria-readonly",
+                AriaProperty::AriaRelevant => "aria-relevant",
+                AriaProperty::AriaRequired => "aria-required",
+                AriaProperty::AriaRoledescription => "aria-roledescription",
+                AriaProperty::AriaRowcount => "aria-rowcount",
+                AriaProperty::AriaRowindex => "aria-rowindex",
+                AriaProperty::AriaRowspan => "aria-rowspan",
+                AriaProperty::AriaSelected => "aria-selected",
+                AriaProperty::AriaSetsize => "aria-setsize",
+                AriaProperty::AriaSort => "aria-sort",
+                AriaProperty::AriaValuemax => "aria-valuemax",
+                AriaProperty::AriaValuemin => "aria-valuemin",
+                AriaProperty::AriaValuenow => "aria-valuenow",
+                AriaProperty::AriaValuetext => "aria-valuetext",
+            }
+        )
+    }
+}
+
 pub type AriaPropertyMap = HashMap<AriaProperty, Option<String>>;
 
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct AriaPropertyDefinition {
     pub r#type: AriaPropertyDefinitionType,
     pub values: Option<Vec<String>>,
@@ -964,48 +1963,109 @@ pub enum AriaPropertyDefinitionType {
     Tristate,
 }
 
-#[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
-pub enum AriaPropertyCurrent {
-    Page,
-    Step,
-    Locatiom,
-    Date,
-    Time,
-    True,
-    False,
+#[derive(Debug, PartialEq, Eq)]
+pub struct UnknownTypeError;
+
+impl FromStr for AriaPropertyDefinitionType {
+    type Err = UnknownTypeError;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "string" => Ok(AriaPropertyDefinitionType::String),
+            "id" => Ok(AriaPropertyDefinitionType::Id),
+            "idlist" => Ok(AriaPropertyDefinitionType::Idlist),
+            "integer" => Ok(AriaPropertyDefinitionType::Integer),
+            "number" => Ok(AriaPropertyDefinitionType::Number),
+            "boolean" => Ok(AriaPropertyDefinitionType::Boolean),
+            "token" => Ok(AriaPropertyDefinitionType::Token),
+            "tokenlist" => Ok(AriaPropertyDefinitionType::Tokenlist),
+            "tristate" => Ok(AriaPropertyDefinitionType::Tristate),
+            _ => Err(UnknownTypeError),
+        }
+    }
 }
 
-#[derive(Clone)]
+impl Display for AriaPropertyDefinitionType {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        write!(
+            f,
+            "{}",
+            match self {
+                AriaPropertyDefinitionType::String => "string",
+                AriaPropertyDefinitionType::Id => "id",
+                AriaPropertyDefinitionType::Idlist => "idlist",
+                AriaPropertyDefinitionType::Integer => "integer",
+                AriaPropertyDefinitionType::Number => "number",
+                AriaPropertyDefinitionType::Boolean => "boolean",
+                AriaPropertyDefinitionType::Token => "token",
+                AriaPropertyDefinitionType::Tokenlist => "tokenlist",
+                AriaPropertyDefinitionType::Tristate => "tristate",
+            }
+        )
+    }
+}
+
+#[derive(Clone, Debug)]
 pub struct AriaRoleRelation {
     pub module: Option<String>,
     pub concept: Option<AriaRoleRelationConcept>,
 }
 
-#[derive(Clone, Eq, Hash, PartialEq)]
+#[derive(Clone, Debug, Eq, Hash, PartialEq)]
 pub struct AriaRoleRelationConcept {
     pub name: String,
     pub attributes: Option<Vec<AriaRoleRelationConceptAttribute>>,
     pub constraints: Option<Vec<AriaRoleRelationConceptConstraint>>,
 }
 
-#[derive(Clone, Eq, Hash, PartialEq)]
+#[derive(Clone, Debug, Eq, Hash, PartialEq)]
 pub struct AriaRoleRelationConceptAttribute {
     pub name: String,
     pub value: Option<AriaRoleRelationConceptAttributeValue>,
     pub constraints: Option<Vec<AriaRoleRelationConceptAttributeConstraint>>,
 }
 
-#[derive(Clone, Eq, Hash, PartialEq)]
+#[derive(Clone, Debug, Eq, Hash, PartialEq)]
 pub enum AriaRoleRelationConceptAttributeValue {
     String(String),
     Number(isize),
 }
+
+#[derive(Debug, PartialEq, Eq)]
+pub struct UnknownConstraintError;
 
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
 pub enum AriaRoleRelationConceptAttributeConstraint {
     Undefined,
     Set,
     GreaterThanOne,
+}
+
+impl FromStr for AriaRoleRelationConceptAttributeConstraint {
+    type Err = UnknownConstraintError;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "undefined" => Ok(AriaRoleRelationConceptAttributeConstraint::Undefined),
+            "set" => Ok(AriaRoleRelationConceptAttributeConstraint::Set),
+            ">1" => Ok(AriaRoleRelationConceptAttributeConstraint::GreaterThanOne),
+            _ => Err(UnknownConstraintError),
+        }
+    }
+}
+
+impl Display for AriaRoleRelationConceptAttributeConstraint {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        write!(
+            f,
+            "{}",
+            match self {
+                AriaRoleRelationConceptAttributeConstraint::Undefined => "undefined",
+                AriaRoleRelationConceptAttributeConstraint::Set => "set",
+                AriaRoleRelationConceptAttributeConstraint::GreaterThanOne => ">1",
+            }
+        )
+    }
 }
 
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
@@ -1025,6 +2085,57 @@ pub enum AriaRoleRelationConceptConstraint {
     TheSizeAttributeValueIsGreaterThanOne,
     TheMultipleAttributeIsNotSetAndTheSizeAttributeDoesNotHaveAValueGreaterThanOne,
     TheListAttributeIsNotSet,
+}
+
+impl FromStr for AriaRoleRelationConceptConstraint {
+    type Err = UnknownConstraintError;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "scoped to the body element" => Ok(AriaRoleRelationConceptConstraint::ScopedToTheBodyElement),
+            "scoped to the main element" => Ok(AriaRoleRelationConceptConstraint::ScopedToTheMainElement),
+            "scoped to a sectioning root element other than body" => Ok(AriaRoleRelationConceptConstraint::ScopedToASectioningRootElementOtherThanBody),
+            "scoped to a sectioning content element" => Ok(AriaRoleRelationConceptConstraint::ScopedToASectioningContentElement),
+            "direct descendant of document" => Ok(AriaRoleRelationConceptConstraint::DirectDescendantOfDocument),
+            "direct descendant of ol" => Ok(AriaRoleRelationConceptConstraint::DirectDescendantOfOl),
+            "direct descendant of ul" => Ok(AriaRoleRelationConceptConstraint::DirectDescendantOfUl),
+            "direct descendant of menu" => Ok(AriaRoleRelationConceptConstraint::DirectDescendantOfMenu),
+            "direct descendant of details element with the open attribute defined" => Ok(AriaRoleRelationConceptConstraint::DirectDescendantOfDetailsElementWithTheOpenAttributeDefined),
+            "ancestor table element has table role" => Ok(AriaRoleRelationConceptConstraint::AncestorTableElementHasTableRole),
+            "ancestor table element has grid role" => Ok(AriaRoleRelationConceptConstraint::AncestorTableElementHasGridRole),
+            "ancestor table element has treegrid role" => Ok(AriaRoleRelationConceptConstraint::AncestorTableElementHasTreegridRole),
+            "the size attribute value is greater than 1" => Ok(AriaRoleRelationConceptConstraint::TheSizeAttributeValueIsGreaterThanOne),
+            "the multiple attribute is not set and the size attribute does not have a value greater than 1" => Ok(AriaRoleRelationConceptConstraint::TheMultipleAttributeIsNotSetAndTheSizeAttributeDoesNotHaveAValueGreaterThanOne),
+            "the list attribute is not set" => Ok(AriaRoleRelationConceptConstraint::TheListAttributeIsNotSet),
+            _ => Err(UnknownConstraintError),
+        }
+    }
+}
+
+impl Display for AriaRoleRelationConceptConstraint {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        write!(
+            f,
+            "{}",
+            match self {
+                AriaRoleRelationConceptConstraint::ScopedToTheBodyElement => "scoped to the body element",
+                AriaRoleRelationConceptConstraint::ScopedToTheMainElement => "scoped to the main element",
+                AriaRoleRelationConceptConstraint::ScopedToASectioningRootElementOtherThanBody => "scoped to a sectioning root element other than body",
+                AriaRoleRelationConceptConstraint::ScopedToASectioningContentElement => "scoped to a sectioning content element",
+                AriaRoleRelationConceptConstraint::DirectDescendantOfDocument => "direct descendant of document",
+                AriaRoleRelationConceptConstraint::DirectDescendantOfOl => "direct descendant of ol",
+                AriaRoleRelationConceptConstraint::DirectDescendantOfUl => "direct descendant of ul",
+                AriaRoleRelationConceptConstraint::DirectDescendantOfMenu => "direct descendant of menu",
+                AriaRoleRelationConceptConstraint::DirectDescendantOfDetailsElementWithTheOpenAttributeDefined => "direct descendant of details element with the open attribute defined",
+                AriaRoleRelationConceptConstraint::AncestorTableElementHasTableRole => "ancestor table element has table role",
+                AriaRoleRelationConceptConstraint::AncestorTableElementHasGridRole => "ancestor table element has grid role",
+                AriaRoleRelationConceptConstraint::AncestorTableElementHasTreegridRole => "ancestor table element has treegrid role",
+                AriaRoleRelationConceptConstraint::TheSizeAttributeValueIsGreaterThanOne => "the size attribute value is greater than 1",
+                AriaRoleRelationConceptConstraint::TheMultipleAttributeIsNotSetAndTheSizeAttributeDoesNotHaveAValueGreaterThanOne => "the multiple attribute is not set and the size attribute does not have a value greater than 1",
+                AriaRoleRelationConceptConstraint::TheListAttributeIsNotSet => "the list attribute is not set",
+            }
+        )
+    }
 }
 
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
