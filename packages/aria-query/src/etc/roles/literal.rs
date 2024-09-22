@@ -4,7 +4,7 @@ use crate::types::{
     AriaAbstractRole, AriaNameFromSource, AriaProperty, AriaRole, AriaRoleDefinition,
     AriaRoleDefinitionKey, AriaRoleDefinitionSuperClass, AriaRoleRelation, AriaRoleRelationConcept,
     AriaRoleRelationConceptAttribute, AriaRoleRelationConceptAttributeConstraint,
-    AriaRoleRelationConceptAttributeValue, AriaRoleRelationConceptConstraint,
+    AriaRoleRelationConceptConstraint,
 };
 
 pub static ARIA_LITERAL_ROLES: LazyLock<HashMap<AriaRoleDefinitionKey, AriaRoleDefinition>> =
@@ -227,9 +227,7 @@ pub static ARIA_LITERAL_ROLES: LazyLock<HashMap<AriaRoleDefinitionKey, AriaRoleD
                             concept: Some(AriaRoleRelationConcept {
                                 attributes: Some(vec![AriaRoleRelationConceptAttribute {
                                     name: "type".into(),
-                                    value: Some(AriaRoleRelationConceptAttributeValue::String(
-                                        "button".into(),
-                                    )),
+                                    value: Some("button".into()),
                                     constraints: None,
                                 }]),
                                 name: "input".into(),
@@ -241,9 +239,7 @@ pub static ARIA_LITERAL_ROLES: LazyLock<HashMap<AriaRoleDefinitionKey, AriaRoleD
                             concept: Some(AriaRoleRelationConcept {
                                 attributes: Some(vec![AriaRoleRelationConceptAttribute {
                                     name: "type".into(),
-                                    value: Some(AriaRoleRelationConceptAttributeValue::String(
-                                        "image".into(),
-                                    )),
+                                    value: Some("image".into()),
                                     constraints: None,
                                 }]),
                                 name: "input".into(),
@@ -255,9 +251,7 @@ pub static ARIA_LITERAL_ROLES: LazyLock<HashMap<AriaRoleDefinitionKey, AriaRoleD
                             concept: Some(AriaRoleRelationConcept {
                                 attributes: Some(vec![AriaRoleRelationConceptAttribute {
                                     name: "type".into(),
-                                    value: Some(AriaRoleRelationConceptAttributeValue::String(
-                                        "reset".into(),
-                                    )),
+                                    value: Some("reset".into()),
                                     constraints: None,
                                 }]),
                                 name: "input".into(),
@@ -269,9 +263,7 @@ pub static ARIA_LITERAL_ROLES: LazyLock<HashMap<AriaRoleDefinitionKey, AriaRoleD
                             concept: Some(AriaRoleRelationConcept {
                                 attributes: Some(vec![AriaRoleRelationConceptAttribute {
                                     name: "type".into(),
-                                    value: Some(AriaRoleRelationConceptAttributeValue::String(
-                                        "submit".into(),
-                                    )),
+                                    value: Some("submit".into()),
                                     constraints: None,
                                 }]),
                                 name: "input".into(),
@@ -394,9 +386,7 @@ pub static ARIA_LITERAL_ROLES: LazyLock<HashMap<AriaRoleDefinitionKey, AriaRoleD
                             concept: Some(AriaRoleRelationConcept {
                                 attributes: Some(vec![AriaRoleRelationConceptAttribute {
                                     name: "type".into(),
-                                    value: Some(AriaRoleRelationConceptAttributeValue::String(
-                                        "checkbox".into(),
-                                    )),
+                                    value: Some("checkbox".into()),
                                     constraints: None,
                                 }]),
                                 name: "input".into(),
@@ -476,9 +466,7 @@ pub static ARIA_LITERAL_ROLES: LazyLock<HashMap<AriaRoleDefinitionKey, AriaRoleD
                             concept: Some(AriaRoleRelationConcept {
                                 attributes: Some(vec![AriaRoleRelationConceptAttribute {
                                     name: "scope".into(),
-                                    value: Some(AriaRoleRelationConceptAttributeValue::String(
-                                        "col".into(),
-                                    )),
+                                    value: Some("col".into()),
                                     constraints: None,
                                 }]),
                                 name: "th".into(),
@@ -490,9 +478,7 @@ pub static ARIA_LITERAL_ROLES: LazyLock<HashMap<AriaRoleDefinitionKey, AriaRoleD
                             concept: Some(AriaRoleRelationConcept {
                                 attributes: Some(vec![AriaRoleRelationConceptAttribute {
                                     name: "scope".into(),
-                                    value: Some(AriaRoleRelationConceptAttributeValue::String(
-                                        "colgroup".into(),
-                                    )),
+                                    value: Some("colgroup".into()),
                                     constraints: None,
                                 }]),
                                 name: "th".into(),
@@ -566,9 +552,7 @@ pub static ARIA_LITERAL_ROLES: LazyLock<HashMap<AriaRoleDefinitionKey, AriaRoleD
                                     },
                                     AriaRoleRelationConceptAttribute {
                                         name: "type".into(),
-                                        value: Some(AriaRoleRelationConceptAttributeValue::String(
-                                            "email".into(),
-                                        )),
+                                        value: Some("email".into()),
                                         constraints: None,
                                     },
                                 ]),
@@ -589,9 +573,7 @@ pub static ARIA_LITERAL_ROLES: LazyLock<HashMap<AriaRoleDefinitionKey, AriaRoleD
                                     },
                                     AriaRoleRelationConceptAttribute {
                                         name: "type".into(),
-                                        value: Some(AriaRoleRelationConceptAttributeValue::String(
-                                            "search".into(),
-                                        )),
+                                        value: Some("search".into()),
                                         constraints: None,
                                     },
                                 ]),
@@ -612,9 +594,7 @@ pub static ARIA_LITERAL_ROLES: LazyLock<HashMap<AriaRoleDefinitionKey, AriaRoleD
                                     },
                                     AriaRoleRelationConceptAttribute {
                                         name: "type".into(),
-                                        value: Some(AriaRoleRelationConceptAttributeValue::String(
-                                            "tel".into(),
-                                        )),
+                                        value: Some("tel".into()),
                                         constraints: None,
                                     },
                                 ]),
@@ -635,9 +615,7 @@ pub static ARIA_LITERAL_ROLES: LazyLock<HashMap<AriaRoleDefinitionKey, AriaRoleD
                                     },
                                     AriaRoleRelationConceptAttribute {
                                         name: "type".into(),
-                                        value: Some(AriaRoleRelationConceptAttributeValue::String(
-                                            "text".into(),
-                                        )),
+                                        value: Some("text".into()),
                                         constraints: None,
                                     },
                                 ]),
@@ -658,9 +636,7 @@ pub static ARIA_LITERAL_ROLES: LazyLock<HashMap<AriaRoleDefinitionKey, AriaRoleD
                                     },
                                     AriaRoleRelationConceptAttribute {
                                         name: "type".into(),
-                                        value: Some(AriaRoleRelationConceptAttributeValue::String(
-                                            "url".into(),
-                                        )),
+                                        value: Some("url".into()),
                                         constraints: None,
                                     },
                                 ]),
@@ -681,9 +657,7 @@ pub static ARIA_LITERAL_ROLES: LazyLock<HashMap<AriaRoleDefinitionKey, AriaRoleD
                                     },
                                     AriaRoleRelationConceptAttribute {
                                         name: "type".into(),
-                                        value: Some(AriaRoleRelationConceptAttributeValue::String(
-                                            "url".into(),
-                                        )),
+                                        value: Some("url".into()),
                                         constraints: None,
                                     },
                                 ]),
@@ -1216,10 +1190,10 @@ pub static ARIA_LITERAL_ROLES: LazyLock<HashMap<AriaRoleDefinitionKey, AriaRoleD
                         AriaRoleRelation {
                             concept: Some(AriaRoleRelationConcept {
                                 constraints: Some(vec![
-            AriaRoleRelationConceptConstraint::ScopedToTheMainElement,
-            AriaRoleRelationConceptConstraint::ScopedToASectioningContentElement,
-            AriaRoleRelationConceptConstraint::ScopedToASectioningRootElementOtherThanBody,
-        ]),
+                                    AriaRoleRelationConceptConstraint::ScopedToTheMainElement,
+                                    AriaRoleRelationConceptConstraint::ScopedToASectioningContentElement,
+                                    AriaRoleRelationConceptConstraint::ScopedToASectioningRootElementOtherThanBody,
+                                ]),
                                 name: "footer".into(),
                                 attributes: None,
                             }),
@@ -1228,10 +1202,10 @@ pub static ARIA_LITERAL_ROLES: LazyLock<HashMap<AriaRoleDefinitionKey, AriaRoleD
                         AriaRoleRelation {
                             concept: Some(AriaRoleRelationConcept {
                                 constraints: Some(vec![
-            AriaRoleRelationConceptConstraint::ScopedToTheMainElement,
-            AriaRoleRelationConceptConstraint::ScopedToASectioningContentElement,
-            AriaRoleRelationConceptConstraint::ScopedToASectioningRootElementOtherThanBody,
-        ]),
+                                    AriaRoleRelationConceptConstraint::ScopedToTheMainElement,
+                                    AriaRoleRelationConceptConstraint::ScopedToASectioningContentElement,
+                                    AriaRoleRelationConceptConstraint::ScopedToASectioningRootElementOtherThanBody,
+                                ]),
                                 name: "header".into(),
                                 attributes: None,
                             }),
@@ -2609,9 +2583,7 @@ pub static ARIA_LITERAL_ROLES: LazyLock<HashMap<AriaRoleDefinitionKey, AriaRoleD
                         concept: Some(AriaRoleRelationConcept {
                             attributes: Some(vec![AriaRoleRelationConceptAttribute {
                                 name: "alt".into(),
-                                value: Some(AriaRoleRelationConceptAttributeValue::String(
-                                    "".into(),
-                                )),
+                                value: Some("".into()),
                                 constraints: None,
                             }]),
                             name: "img".into(),
@@ -2736,9 +2708,7 @@ pub static ARIA_LITERAL_ROLES: LazyLock<HashMap<AriaRoleDefinitionKey, AriaRoleD
                         concept: Some(AriaRoleRelationConcept {
                             attributes: Some(vec![AriaRoleRelationConceptAttribute {
                                 name: "type".into(),
-                                value: Some(AriaRoleRelationConceptAttributeValue::String(
-                                    "radio".into(),
-                                )),
+                                value: Some("radio".into()),
                                 constraints: None,
                             }]),
                             name: "input".into(),
@@ -2882,9 +2852,7 @@ pub static ARIA_LITERAL_ROLES: LazyLock<HashMap<AriaRoleDefinitionKey, AriaRoleD
                             concept: Some(AriaRoleRelationConcept {
                                 attributes: Some(vec![AriaRoleRelationConceptAttribute {
                                     name: "scope".into(),
-                                    value: Some(AriaRoleRelationConceptAttributeValue::String(
-                                        "row".into(),
-                                    )),
+                                    value: Some("row".into()),
                                     constraints: None,
                                 }]),
                                 name: "th".into(),
@@ -2896,9 +2864,7 @@ pub static ARIA_LITERAL_ROLES: LazyLock<HashMap<AriaRoleDefinitionKey, AriaRoleD
                             concept: Some(AriaRoleRelationConcept {
                                 attributes: Some(vec![AriaRoleRelationConceptAttribute {
                                     name: "scope".into(),
-                                    value: Some(AriaRoleRelationConceptAttributeValue::String(
-                                        "rowgroup".into(),
-                                    )),
+                                    value: Some("rowgroup".into()),
                                     constraints: None,
                                 }]),
                                 name: "th".into(),
@@ -3058,9 +3024,7 @@ pub static ARIA_LITERAL_ROLES: LazyLock<HashMap<AriaRoleDefinitionKey, AriaRoleD
                                 },
                                 AriaRoleRelationConceptAttribute {
                                     name: "type".into(),
-                                    value: Some(AriaRoleRelationConceptAttributeValue::String(
-                                        "search".into(),
-                                    )),
+                                    value: Some("search".into()),
                                     constraints: None,
                                 },
                             ]),
@@ -3164,9 +3128,7 @@ pub static ARIA_LITERAL_ROLES: LazyLock<HashMap<AriaRoleDefinitionKey, AriaRoleD
                         concept: Some(AriaRoleRelationConcept {
                             attributes: Some(vec![AriaRoleRelationConceptAttribute {
                                 name: "type".into(),
-                                value: Some(AriaRoleRelationConceptAttributeValue::String(
-                                    "range".into(),
-                                )),
+                                value: Some("range".into()),
                                 constraints: None,
                             }]),
                             name: "input".into(),
@@ -3213,9 +3175,7 @@ pub static ARIA_LITERAL_ROLES: LazyLock<HashMap<AriaRoleDefinitionKey, AriaRoleD
                         concept: Some(AriaRoleRelationConcept {
                             attributes: Some(vec![AriaRoleRelationConceptAttribute {
                                 name: "type".into(),
-                                value: Some(AriaRoleRelationConceptAttributeValue::String(
-                                    "number".into(),
-                                )),
+                                value: Some("number".into()),
                                 constraints: None,
                             }]),
                             name: "input".into(),
@@ -3619,9 +3579,7 @@ pub static ARIA_LITERAL_ROLES: LazyLock<HashMap<AriaRoleDefinitionKey, AriaRoleD
                                     },
                                     AriaRoleRelationConceptAttribute {
                                         name: "type".into(),
-                                        value: Some(AriaRoleRelationConceptAttributeValue::String(
-                                            "email".into(),
-                                        )),
+                                        value: Some("email".into()),
                                         constraints: None,
                                     },
                                 ]),
@@ -3644,9 +3602,7 @@ pub static ARIA_LITERAL_ROLES: LazyLock<HashMap<AriaRoleDefinitionKey, AriaRoleD
                                     },
                                     AriaRoleRelationConceptAttribute {
                                         name: "type".into(),
-                                        value: Some(AriaRoleRelationConceptAttributeValue::String(
-                                            "tel".into(),
-                                        )),
+                                        value: Some("tel".into()),
                                         constraints: None,
                                     },
                                 ]),
@@ -3669,9 +3625,7 @@ pub static ARIA_LITERAL_ROLES: LazyLock<HashMap<AriaRoleDefinitionKey, AriaRoleD
                                     },
                                     AriaRoleRelationConceptAttribute {
                                         name: "type".into(),
-                                        value: Some(AriaRoleRelationConceptAttributeValue::String(
-                                            "text".into(),
-                                        )),
+                                        value: Some("text".into()),
                                         constraints: None,
                                     },
                                 ]),
@@ -3694,9 +3648,7 @@ pub static ARIA_LITERAL_ROLES: LazyLock<HashMap<AriaRoleDefinitionKey, AriaRoleD
                                     },
                                     AriaRoleRelationConceptAttribute {
                                         name: "type".into(),
-                                        value: Some(AriaRoleRelationConceptAttributeValue::String(
-                                            "url".into(),
-                                        )),
+                                        value: Some("url".into()),
                                         constraints: None,
                                     },
                                 ]),

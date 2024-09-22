@@ -2021,14 +2021,8 @@ pub struct AriaRoleRelationConcept {
 #[derive(Clone, Debug, Eq, Hash, PartialEq)]
 pub struct AriaRoleRelationConceptAttribute {
     pub name: String,
-    pub value: Option<AriaRoleRelationConceptAttributeValue>,
+    pub value: Option<String>,
     pub constraints: Option<Vec<AriaRoleRelationConceptAttributeConstraint>>,
-}
-
-#[derive(Clone, Debug, Eq, Hash, PartialEq)]
-pub enum AriaRoleRelationConceptAttributeValue {
-    String(String),
-    Number(isize),
 }
 
 #[derive(Debug, PartialEq, Eq)]
