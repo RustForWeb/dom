@@ -1,6 +1,6 @@
 [package]
 name = "aria-query"
-description = "Rust port of aria-query."
+description = "Rust port of ARIA Query."
 version = "0.0.3"
 
 authors.workspace = true
