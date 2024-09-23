@@ -6,6 +6,7 @@ Rust port of various DOM libraries.
 
 -   [aria-hidden](./packages/aria-hidden)
 -   [aria-query](./packages/aria-query)
+-   [dom-accessibility-api](./packages/dom-accessibility-api)
 
 ## Documentation
 

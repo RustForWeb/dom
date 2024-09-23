@@ -1,0 +1,19 @@
+[package]
+name = "dom-accessibility-api"
+description = "Rust port of dom-accessibility-api."
+version = "0.0.1"
+
+authors.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[dependencies]
+web-sys = { workspace = true, features = [
+    "Document",
+    "DocumentFragment",
+    "Element",
+    "HtmlInputElement",
+    "HtmlSelectElement",
+    "Node",
+] }

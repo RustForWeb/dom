@@ -1,6 +1,6 @@
 # Rust ARIA Hidden
 
-Rust port of [aria-hidden](https://www.npmjs.com/package/aria-hidden).
+Rust ARIA Hidden is a Rust port of [aria-hidden](https://www.npmjs.com/package/aria-hidden).
 
 Hides from ARIA everything, except provided node(s). Helps to isolate modal dialogs and focused task - the content will be not accessible using accessible tools.
 
