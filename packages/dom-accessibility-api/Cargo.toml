@@ -9,11 +9,23 @@ license.workspace = true
 repository.workspace = true
 
 [dependencies]
+regex = "1.10.6"
 web-sys = { workspace = true, features = [
+    "Attr",
+    "CssStyleDeclaration",
     "Document",
     "DocumentFragment",
     "Element",
+    "HtmlFieldSetElement",
     "HtmlInputElement",
+    "HtmlLabelElement",
+    "HtmlLegendElement",
+    "HtmlOptGroupElement",
     "HtmlSelectElement",
+    "HtmlTableElement",
+    "HtmlTableCaptionElement",
     "Node",
+    "SvgElement",
+    "SvgTitleElement",
+    "Window",
 ] }
