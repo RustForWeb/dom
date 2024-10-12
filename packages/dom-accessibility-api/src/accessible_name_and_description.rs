@@ -3,11 +3,15 @@ use std::rc::Rc;
 use regex::Regex;
 use web_sys::{
     wasm_bindgen::JsCast, window, CssStyleDeclaration, Element, HtmlFieldSetElement,
-    HtmlInputElement, HtmlLabelElement, HtmlLegendElement, HtmlOptGroupElement,
-    HtmlTableCaptionElement, HtmlTableElement, Node, SvgElement, SvgTitleElement,
+    HtmlInputElement, HtmlLabelElement, HtmlLegendElement, HtmlOptGroupElement, HtmlSelectElement,
+    HtmlSlotElement, HtmlTableCaptionElement, HtmlTableElement, HtmlTextAreaElement, Node,
+    SvgElement, SvgTitleElement,
 };
 
-use crate::util::{has_any_concrete_roles, query_id_refs, PRESENTATION_ROLES};
+use crate::util::{
+    array_to_vec, has_any_concrete_roles, html_collection_to_vec, node_list_to_vec, query_id_refs,
+    PRESENTATION_ROLES,
+};
 
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
 pub enum Compute {
@@ -15,7 +19,7 @@ pub enum Compute {
     Description,
 }
 
-type GetComputedStyle = Rc<dyn Fn(&Element) -> CssStyleDeclaration>;
+type GetComputedStyle = Rc<dyn Fn(&Element, Option<&str>) -> CssStyleDeclaration>;
 
 /// Options for [`compute_text_alternative`].
 #[derive(Clone, Default)]
@@ -47,7 +51,7 @@ fn is_hidden(node: &Node, get_computed_style_implementation: GetComputedStyle) -
         {
             true
         } else {
-            let style = get_computed_style_implementation(element);
+            let style = get_computed_style_implementation(element, None);
 
             style
                 .get_property_value("display")
@@ -61,10 +65,6 @@ fn is_hidden(node: &Node, get_computed_style_implementation: GetComputedStyle) -
     } else {
         false
     }
-}
-
-fn is_marked_presentational(node: &Node) -> bool {
-    has_any_concrete_roles(node, PRESENTATION_ROLES.into())
 }
 
 fn is_control(node: &Node) -> bool {
@@ -82,25 +82,188 @@ fn has_abstract_role(node: &Node, role: &str) -> bool {
     })
 }
 
-fn get_labels(element: &Element) -> Vec<HtmlLabelElement> {
-    let mut labels: Vec<HtmlLabelElement> = vec![];
+fn query_selector_all_subtree(element: &Element, selectors: &str) -> Vec<Element> {
+    let mut elements = node_list_to_vec(
+        element
+            .query_selector_all(selectors)
+            .expect("Element should be queried."),
+    );
 
+    for root in query_id_refs(element, "aria-owns") {
+        elements.extend(node_list_to_vec(
+            root.query_selector_all(selectors)
+                .expect("Element should be queried."),
+        ));
+    }
+
+    elements
+}
+
+fn query_selected_options(listbox: &Element) -> Vec<Element> {
+    if let Some(select_element) = listbox.dyn_ref::<HtmlSelectElement>() {
+        html_collection_to_vec(select_element.selected_options())
+    } else {
+        query_selector_all_subtree(listbox, "[aria-selected=\"true\"]")
+    }
+}
+
+fn is_marked_presentational(node: &Node) -> bool {
+    has_any_concrete_roles(node, PRESENTATION_ROLES.into())
+}
+
+fn is_native_host_language_text_alternative_element(node: &Node) -> bool {
+    // Elements specifically listed in html-aam.
+    // We don't need this for `label` or `legend` elements. Their implicit roles already allow "naming from content".
+    //
+    // https://w3c.github.io/html-aam/#table-element
+    node.is_instance_of::<HtmlTableCaptionElement>()
+}
+
+fn allows_name_from_content(node: &Node) -> bool {
+    has_any_concrete_roles(
+        node,
+        vec![
+            "button",
+            "cell",
+            "checkbox",
+            "columnheader",
+            "gridcell",
+            "heading",
+            "label",
+            "legend",
+            "link",
+            "menuitem",
+            "menuitemcheckbox",
+            "menuitemradio",
+            "option",
+            "radio",
+            "row",
+            "rowheader",
+            "switch",
+            "tab",
+            "tooltip",
+            "treeitem",
+        ],
+    )
+}
+
+// TODO: https://github.com/eps1lon/dom-accessibility-api/issues/100
+fn is_descendant_of_native_host_language_text_alternative_element(_node: &Node) -> bool {
+    false
+}
+
+fn get_value_of_textbox(element: &Element) -> String {
     if let Some(input_element) = element.dyn_ref::<HtmlInputElement>() {
-        if let Some(node_list) = input_element.labels() {
-            for i in 0..node_list.length() {
-                labels.push(
-                    node_list
-                        .item(i)
-                        .expect("Item should exist.")
-                        .unchecked_into::<HtmlLabelElement>(),
-                );
+        input_element.value()
+    } else if let Some(text_area_element) = element.dyn_ref::<HtmlTextAreaElement>() {
+        text_area_element.value()
+    } else {
+        // https://github.com/eps1lon/dom-accessibility-api/issues/4
+        element.text_content().unwrap_or("".into())
+    }
+}
+
+fn get_textual_content(declaration: CssStyleDeclaration) -> String {
+    let content = declaration
+        .get_property_value("content")
+        .expect("CssStyleDeclaration should have content.");
+    if Regex::new(r#"^["'].*["']$"#)
+        .expect("Regex should be valid.")
+        .is_match(&content)
+    {
+        (&content[1..content.len() - 1]).into()
+    } else {
+        "".into()
+    }
+}
+
+// https://html.spec.whatwg.org/multipage/forms.html#category-label
+// TODO: form-associated custom elements
+fn is_labelable_element(element: &Element) -> bool {
+    let local_name = element.local_name();
+
+    local_name == "button"
+        || (local_name == "input" && element.get_attribute("type") != Some("hidden".into()))
+        || local_name == "meter"
+        || local_name == "output"
+        || local_name == "progress"
+        || local_name == "select"
+        || local_name == "textarea"
+}
+
+// > [...], then the first such descendant in tree order is the label element's labeled control.
+// https://html.spec.whatwg.org/multipage/forms.html#labeled-control
+fn find_labelable_element(element: &Element) -> Option<Element> {
+    if is_labelable_element(element) {
+        return Some(element.clone());
+    }
+
+    for child_node in node_list_to_vec::<Node>(element.child_nodes()) {
+        if let Some(child_element) = child_node.dyn_ref::<Element>() {
+            let descendant_labelable_element = find_labelable_element(child_element);
+            if let Some(descendant_labelable_element) = descendant_labelable_element {
+                return Some(descendant_labelable_element);
             }
         }
+    }
 
-        labels
+    None
+}
+
+// Polyfill of HTMLLabelElement.control
+// https://html.spec.whatwg.org/multipage/forms.html#labeled-control
+fn get_control_of_label(label: &HtmlLabelElement) -> Option<Element> {
+    if let Some(control) = label.control() {
+        return Some(control.into());
+    }
+
+    let html_for = label.get_attribute("for");
+    if let Some(html_for) = html_for {
+        return label
+            .owner_document()
+            .expect("Owner document should exist.")
+            .get_element_by_id(&html_for);
+    }
+
+    find_labelable_element(label)
+}
+
+// Polyfill of HTMLInputElement.labels
+// https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/labels
+fn get_labels(element: &Element) -> Vec<HtmlLabelElement> {
+    if let Some(input_element) = element.dyn_ref::<HtmlInputElement>() {
+        input_element
+            .labels()
+            .map(node_list_to_vec)
+            .unwrap_or_default()
+    } else if !is_labelable_element(element) {
+        vec![]
     } else {
-        // TODO
-        labels
+        let document = element
+            .owner_document()
+            .expect("Owner document should exist.");
+        node_list_to_vec(
+            document
+                .query_selector_all("label")
+                .expect("Document should be queried."),
+        )
+        .into_iter()
+        .filter(|label| get_control_of_label(label).is_some_and(|label| label == *element))
+        .collect()
+    }
+}
+
+// Gets the contents of a slot used for computing the accname.
+fn get_slot_contents(slot: &HtmlSlotElement) -> Vec<Node> {
+    // Computing the accessible name for elements containing slots is not currently defined in the spec.
+    // This implementation reflects the behavior of NVDA 2020.2/Firefox 81 and iOS VoiceOver/Safari 13.6.
+
+    let assigned_nodes = slot.assigned_nodes();
+    if assigned_nodes.length() == 0 {
+        // If no nodes are assigned to the slot, it displays the default content.
+        node_list_to_vec(slot.child_nodes())
+    } else {
+        array_to_vec(assigned_nodes)
     }
 }
 
@@ -110,26 +273,107 @@ struct ComputeTextAlternativeContext {
     recursion: bool,
 }
 
+struct ComputeMiscTextAlternativeContext {
+    is_embedded_in_label: bool,
+    #[expect(dead_code)]
+    is_referenced: bool,
+}
+
 // Implements <https://w3c.github.io/accname/#mapping_additional_nd_te>.
 pub fn compute_text_alternative(root: &Element, options: ComputeTextAlternativeOptions) -> String {
     let mut consulted_nodes: Vec<Node> = vec![];
 
     let compute = options.compute.unwrap_or(Compute::Name);
     let uncached_get_computed_style = options.get_computed_style.unwrap_or_else(|| {
-        Rc::new(|element| {
-            window()
-                .expect("Window should exist.")
-                .get_computed_style(element)
-                .expect("Element should be valid.")
-                .expect("Computed style should exist.")
+        Rc::new(|element, pseudo_elt| {
+            let window = window().expect("Window should exist.");
+
+            if let Some(pseudo_elt) = pseudo_elt {
+                window.get_computed_style_with_pseudo_elt(element, pseudo_elt)
+            } else {
+                window.get_computed_style(element)
+            }
+            .expect("Element should be valid.")
+            .expect("Computed style should exist.")
         })
     });
     let hidden = options.hidden.unwrap_or(false);
 
-    let get_computed_style: GetComputedStyle = Rc::new(move |element| {
-        // TODO: cache
-        uncached_get_computed_style(element)
+    let get_computed_style: GetComputedStyle = Rc::new({
+        let uncached_get_computed_style = uncached_get_computed_style.clone();
+
+        move |element, pseudo_elt| {
+            // TODO: cache
+            uncached_get_computed_style(element, pseudo_elt)
+        }
     });
+
+    // 2F.i
+    fn compute_misc_text_alternative(
+        compute: Compute,
+        hidden: bool,
+        uncached_get_computed_style: GetComputedStyle,
+        get_computed_style: GetComputedStyle,
+        consulted_nodes: &mut Vec<Node>,
+        node: &Node,
+        context: ComputeMiscTextAlternativeContext,
+    ) -> String {
+        let mut accumalated_text = "".to_string();
+
+        if let Some(element) = node.dyn_ref::<Element>() {
+            let pseudo_before = uncached_get_computed_style(element, Some("::before"));
+            let before_content = get_textual_content(pseudo_before);
+            accumalated_text = format!("{before_content} {accumalated_text}");
+        }
+
+        // FIXME: Including aria-owns is not defined in the spec, but it is required in the web-platform-test.
+        let child_nodes = node
+            .dyn_ref::<HtmlSlotElement>()
+            .map(get_slot_contents)
+            .unwrap_or_else(|| {
+                let mut nodes = node_list_to_vec(node.child_nodes());
+                nodes.extend(
+                    query_id_refs(node, "aria-owns")
+                        .into_iter()
+                        .map(|element| element.into()),
+                );
+                nodes
+            });
+        for child in child_nodes {
+            let result = inner_compute_text_alternative(
+                compute,
+                hidden,
+                uncached_get_computed_style.clone(),
+                get_computed_style.clone(),
+                consulted_nodes,
+                &child,
+                ComputeTextAlternativeContext {
+                    is_embedded_in_label: context.is_embedded_in_label,
+                    is_referenced: false,
+                    recursion: true,
+                },
+            );
+            // TODO: Unclear why display affects delimiter, see https://github.com/w3c/accname/issues/3.
+            let display = if let Some(element) = child.dyn_ref::<Element>() {
+                get_computed_style(element, None)
+                    .get_property_value("display")
+                    .expect("Computed style should have display.")
+            } else {
+                "inline".into()
+            };
+            let separator = if display != "inline" { " " } else { "" };
+            // Trailing separator for WPT tests.
+            accumalated_text = format!("{accumalated_text}{separator}{result}{separator}");
+        }
+
+        if let Some(element) = node.dyn_ref::<Element>() {
+            let pseudo_after = uncached_get_computed_style(element, Some("::after"));
+            let after_content = get_textual_content(pseudo_after);
+            accumalated_text = format!("{accumalated_text} {after_content}");
+        }
+
+        return accumalated_text.trim().into();
+    }
 
     fn use_attribute(
         consulted_nodes: &mut Vec<Node>,
@@ -147,9 +391,18 @@ pub fn compute_text_alternative(root: &Element, options: ComputeTextAlternativeO
         None
     }
 
+    fn compute_tooltip_attribute_value(
+        consulted_nodes: &mut Vec<Node>,
+        node: &Node,
+    ) -> Option<String> {
+        node.dyn_ref::<Element>()
+            .and_then(|element| use_attribute(consulted_nodes, element, "title"))
+    }
+
     fn compute_element_text_alternative(
         compute: Compute,
         hidden: bool,
+        uncached_get_computed_style: GetComputedStyle,
         get_computed_style: GetComputedStyle,
         consulted_nodes: &mut Vec<Node>,
         node: &Node,
@@ -168,6 +421,7 @@ pub fn compute_text_alternative(root: &Element, options: ComputeTextAlternativeO
                         return Some(inner_compute_text_alternative(
                             compute,
                             hidden,
+                            uncached_get_computed_style,
                             get_computed_style,
                             consulted_nodes,
                             &child,
@@ -192,6 +446,7 @@ pub fn compute_text_alternative(root: &Element, options: ComputeTextAlternativeO
                         return Some(inner_compute_text_alternative(
                             compute,
                             hidden,
+                            uncached_get_computed_style,
                             get_computed_style,
                             consulted_nodes,
                             &child,
@@ -250,9 +505,72 @@ pub fn compute_text_alternative(root: &Element, options: ComputeTextAlternativeO
                 }
             }
 
-            let _labels = get_labels(element);
+            let labels = get_labels(element);
+            if !labels.is_empty() {
+                consulted_nodes.push(node.clone());
 
-            // TODO
+                return Some(
+                    labels
+                        .into_iter()
+                        .map(|element| {
+                            inner_compute_text_alternative(
+                                compute,
+                                hidden,
+                                uncached_get_computed_style.clone(),
+                                get_computed_style.clone(),
+                                consulted_nodes,
+                                &element,
+                                ComputeTextAlternativeContext {
+                                    is_embedded_in_label: true,
+                                    is_referenced: false,
+                                    recursion: true,
+                                },
+                            )
+                        })
+                        .filter(|label| !label.is_empty())
+                        .collect::<Vec<_>>()
+                        .join(" "),
+                );
+            }
+
+            // https://w3c.github.io/html-aam/#input-type-image-accessible-name-computation
+            // TODO: WPT test consider label elements but html-aam does not mention them.
+            // We follow existing implementations over spec.
+            if let Some(input_element) = node.dyn_ref::<HtmlInputElement>() {
+                if input_element.type_() == "image" {
+                    let name_for_alt = use_attribute(consulted_nodes, input_element, "alt");
+                    if let Some(name_for_alt) = name_for_alt {
+                        return Some(name_for_alt);
+                    }
+
+                    let name_for_title = use_attribute(consulted_nodes, input_element, "title");
+                    if let Some(name_for_alt) = name_for_title {
+                        return Some(name_for_alt);
+                    }
+
+                    // TODO: l10n
+                    return Some("Submit Query".into());
+                }
+            }
+
+            if has_any_concrete_roles(node, vec!["button"]) {
+                // https://www.w3.org/TR/html-aam-1.0/#button-element
+                let name_from_sub_tree = compute_misc_text_alternative(
+                    compute,
+                    hidden,
+                    uncached_get_computed_style,
+                    get_computed_style,
+                    consulted_nodes,
+                    node,
+                    ComputeMiscTextAlternativeContext {
+                        is_embedded_in_label: false,
+                        is_referenced: false,
+                    },
+                );
+                if !name_from_sub_tree.is_empty() {
+                    return Some(name_from_sub_tree);
+                }
+            }
         }
 
         None
@@ -261,6 +579,7 @@ pub fn compute_text_alternative(root: &Element, options: ComputeTextAlternativeO
     fn inner_compute_text_alternative(
         compute: Compute,
         hidden: bool,
+        uncached_get_computed_style: GetComputedStyle,
         get_computed_style: GetComputedStyle,
         consulted_nodes: &mut Vec<Node>,
         current: &Node,
@@ -297,6 +616,7 @@ pub fn compute_text_alternative(root: &Element, options: ComputeTextAlternativeO
                             inner_compute_text_alternative(
                                 compute,
                                 hidden,
+                                uncached_get_computed_style.clone(),
                                 get_computed_style.clone(),
                                 consulted_nodes,
                                 &element,
@@ -336,7 +656,8 @@ pub fn compute_text_alternative(root: &Element, options: ComputeTextAlternativeO
                 if let Some(element_text_alternative) = compute_element_text_alternative(
                     compute,
                     hidden,
-                    get_computed_style,
+                    uncached_get_computed_style.clone(),
+                    get_computed_style.clone(),
                     consulted_nodes,
                     current,
                 ) {
@@ -355,10 +676,119 @@ pub fn compute_text_alternative(root: &Element, options: ComputeTextAlternativeO
 
         // 2E
         if skip_to_step_2e || context.is_embedded_in_label || context.is_referenced {
-            // TODO
+            if has_any_concrete_roles(current, vec!["combobox", "listbox"]) {
+                consulted_nodes.push(current.clone());
+
+                let selected_options = query_selected_options(
+                    current
+                        .dyn_ref::<Element>()
+                        .expect("Node should be an Element."),
+                );
+                if selected_options.is_empty() {
+                    // Defined per test `name_heading_combobox`.
+                    return current
+                        .dyn_ref::<HtmlInputElement>()
+                        .map(|input_element| input_element.value())
+                        .unwrap_or("".into());
+                }
+                return selected_options
+                    .iter()
+                    .map(|selected_option| {
+                        inner_compute_text_alternative(
+                            compute,
+                            hidden,
+                            uncached_get_computed_style.clone(),
+                            get_computed_style.clone(),
+                            consulted_nodes,
+                            selected_option,
+                            ComputeTextAlternativeContext {
+                                is_embedded_in_label: context.is_embedded_in_label,
+                                is_referenced: false,
+                                recursion: true,
+                            },
+                        )
+                    })
+                    .collect::<Vec<_>>()
+                    .join(" ");
+            }
+            if has_abstract_role(current, "range") {
+                consulted_nodes.push(current.clone());
+                let element = current
+                    .dyn_ref::<Element>()
+                    .expect("Node should be an Element.");
+                if element.has_attribute("aria-valuetext") {
+                    return element
+                        .get_attribute("aria-valuetext")
+                        .expect("Attribute should exist.");
+                }
+                if element.has_attribute("aria-valuenow") {
+                    return element
+                        .get_attribute("aria-valuenow")
+                        .expect("Attribute should exist.");
+                }
+                return element.get_attribute("value").unwrap_or("".into());
+            }
+            if has_any_concrete_roles(current, vec!["textbox"]) {
+                consulted_nodes.push(current.clone());
+
+                return get_value_of_textbox(
+                    current
+                        .dyn_ref::<Element>()
+                        .expect("Node should be an Element."),
+                );
+            }
         }
 
-        // TODO
+        // 2F
+        if allows_name_from_content(current)
+            || (current.is_instance_of::<Element>() && context.is_referenced)
+            || is_native_host_language_text_alternative_element(current)
+            || is_descendant_of_native_host_language_text_alternative_element(current)
+        {
+            let accumulated_text_2f = compute_misc_text_alternative(
+                compute,
+                hidden,
+                uncached_get_computed_style.clone(),
+                get_computed_style.clone(),
+                consulted_nodes,
+                current,
+                ComputeMiscTextAlternativeContext {
+                    is_embedded_in_label: context.is_embedded_in_label,
+                    is_referenced: false,
+                },
+            );
+            if !accumulated_text_2f.is_empty() {
+                consulted_nodes.push(current.clone());
+                return accumulated_text_2f;
+            }
+        }
+
+        if current.node_type() == Node::TEXT_NODE {
+            consulted_nodes.push(current.clone());
+            return current.text_content().unwrap_or("".into());
+        }
+
+        if context.recursion {
+            consulted_nodes.push(current.clone());
+            return compute_misc_text_alternative(
+                compute,
+                hidden,
+                uncached_get_computed_style,
+                get_computed_style,
+                consulted_nodes,
+                current,
+                ComputeMiscTextAlternativeContext {
+                    is_embedded_in_label: context.is_embedded_in_label,
+                    is_referenced: false,
+                },
+            );
+        }
+
+        let tooltip_attribute_value = compute_tooltip_attribute_value(consulted_nodes, current);
+        if let Some(tooltip_attribute_value) = tooltip_attribute_value {
+            consulted_nodes.push(current.clone());
+            return tooltip_attribute_value;
+        }
 
         // TODO: should this be reachable?
         consulted_nodes.push(current.clone());
@@ -368,6 +798,7 @@ pub fn compute_text_alternative(root: &Element, options: ComputeTextAlternativeO
     as_flat_string(inner_compute_text_alternative(
         compute,
         hidden,
+        uncached_get_computed_style,
         get_computed_style,
         &mut consulted_nodes,
         root,
