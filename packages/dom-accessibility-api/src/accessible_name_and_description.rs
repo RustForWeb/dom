@@ -19,7 +19,7 @@ pub enum Compute {
     Description,
 }
 
-type GetComputedStyle = Rc<dyn Fn(&Element, Option<&str>) -> CssStyleDeclaration>;
+pub type GetComputedStyle = Rc<dyn Fn(&Element, Option<&str>) -> CssStyleDeclaration>;
 
 /// Options for [`compute_text_alternative`].
 #[derive(Clone, Default)]
