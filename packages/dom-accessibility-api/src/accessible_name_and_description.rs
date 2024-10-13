@@ -25,7 +25,6 @@ pub type GetComputedStyle = Rc<dyn Fn(&Element, Option<&str>) -> CssStyleDeclara
 #[derive(Clone, Default)]
 pub struct ComputeTextAlternativeOptions {
     pub compute: Option<Compute>,
-    pub computed_style_supports_pseudo_elements: Option<bool>,
 
     /// Mock `window.get_computed_style`. Needs `content`, `display` and `visibility`.
     pub get_computed_style: Option<GetComputedStyle>,
