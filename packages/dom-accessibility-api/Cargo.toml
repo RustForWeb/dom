@@ -28,6 +28,7 @@ web-sys = { workspace = true, features = [
     "HtmlTableCaptionElement",
     "HtmlTextAreaElement",
     "Node",
+    "NodeList",
     "SvgElement",
     "SvgTitleElement",
     "Window",
