@@ -371,7 +371,7 @@ pub fn compute_text_alternative(root: &Element, options: ComputeTextAlternativeO
             accumalated_text = format!("{accumalated_text} {after_content}");
         }
 
-        return accumalated_text.trim().into();
+        accumalated_text.trim().into()
     }
 
     fn use_attribute(
