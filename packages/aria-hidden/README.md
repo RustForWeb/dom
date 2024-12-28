@@ -6,6 +6,6 @@ Hides from ARIA everything, except provided node(s). Helps to isolate modal dial
 
 ## Rust For Web
 
-The Rust Radix project is part of the [Rust For Web](https://github.com/RustForWeb).
+The Rust ARIA Hidden project is part of [Rust For Web](https://github.com/RustForWeb).
 
 [Rust For Web](https://github.com/RustForWeb) creates and ports web UI libraries for Rust. All projects are free and open source.
