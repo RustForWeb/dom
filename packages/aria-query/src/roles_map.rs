@@ -2,8 +2,8 @@ use std::{collections::HashMap, sync::LazyLock};
 
 use crate::{
     etc::roles::{
-        dpub::ARIA_DPUB_ROLES, graphics::ARIA_GRAPHICS_ROLES, literal::ARIA_LITERAL_ROLES,
-        r#abstract::ARIA_ABSTRACT_ROLES,
+        r#abstract::ARIA_ABSTRACT_ROLES, dpub::ARIA_DPUB_ROLES, graphics::ARIA_GRAPHICS_ROLES,
+        literal::ARIA_LITERAL_ROLES,
     },
     types::{AriaRoleDefinition, AriaRoleDefinitionKey, AriaRoleDefinitionSuperClass},
 };

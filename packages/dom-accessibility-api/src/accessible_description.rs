@@ -2,7 +2,7 @@ use web_sys::Element;
 
 use crate::{
     accessible_name_and_description::{
-        compute_text_alternative, Compute, ComputeTextAlternativeOptions,
+        Compute, ComputeTextAlternativeOptions, compute_text_alternative,
     },
     util::query_id_refs,
 };
