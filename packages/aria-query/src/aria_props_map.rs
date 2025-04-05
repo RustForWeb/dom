@@ -1,8 +1,8 @@
 use std::{collections::HashMap, sync::LazyLock};
 
 use crate::{
-    types::{AriaProperty, AriaPropertyDefinition},
     AriaPropertyDefinitionType,
+    types::{AriaProperty, AriaPropertyDefinition},
 };
 
 pub static ARIA: LazyLock<HashMap<AriaProperty, AriaPropertyDefinition>> = LazyLock::new(|| {

@@ -1,7 +1,7 @@
 use web_sys::Element;
 
 use crate::{
-    accessible_name_and_description::{compute_text_alternative, ComputeTextAlternativeOptions},
+    accessible_name_and_description::{ComputeTextAlternativeOptions, compute_text_alternative},
     util::has_any_concrete_roles,
 };
 

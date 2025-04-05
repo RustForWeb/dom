@@ -1,6 +1,6 @@
 use std::{collections::HashMap, sync::LazyLock};
 
-use web_sys::{wasm_bindgen::JsCast, Element, HtmlInputElement, HtmlSelectElement};
+use web_sys::{Element, HtmlInputElement, HtmlSelectElement, wasm_bindgen::JsCast};
 
 use crate::util::PRESENTATION_ROLES;
 

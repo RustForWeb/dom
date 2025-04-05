@@ -7,7 +7,7 @@ use std::{
     sync::atomic::AtomicU64,
 };
 
-use web_sys::{wasm_bindgen::JsCast, Element, HtmlElement, Node, NodeList, ShadowRoot};
+use web_sys::{Element, HtmlElement, Node, NodeList, ShadowRoot, wasm_bindgen::JsCast};
 
 // Element is not Send and WebAssembly is single threaded, so this should be fine for now.
 thread_local! {

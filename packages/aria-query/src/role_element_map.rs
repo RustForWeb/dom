@@ -1,6 +1,6 @@
 use std::{collections::HashMap, sync::LazyLock};
 
-use crate::{roles_map::ROLES, types::AriaRoleDefinitionKey, AriaRoleRelationConcept};
+use crate::{AriaRoleRelationConcept, roles_map::ROLES, types::AriaRoleDefinitionKey};
 
 pub static ROLE_ELEMENTS: LazyLock<HashMap<AriaRoleDefinitionKey, Vec<AriaRoleRelationConcept>>> =
     LazyLock::new(|| {

@@ -1,6 +1,6 @@
 use web_sys::{
-    js_sys::Array, wasm_bindgen::JsCast, Document, DocumentFragment, Element, HtmlCollection, Node,
-    NodeList,
+    Document, DocumentFragment, Element, HtmlCollection, Node, NodeList, js_sys::Array,
+    wasm_bindgen::JsCast,
 };
 
 use crate::get_role::get_role;

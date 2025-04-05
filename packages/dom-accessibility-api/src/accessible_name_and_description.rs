@@ -2,15 +2,15 @@ use std::rc::Rc;
 
 use regex::Regex;
 use web_sys::{
-    wasm_bindgen::JsCast, window, CssStyleDeclaration, Element, HtmlFieldSetElement,
-    HtmlInputElement, HtmlLabelElement, HtmlLegendElement, HtmlOptGroupElement, HtmlSelectElement,
-    HtmlSlotElement, HtmlTableCaptionElement, HtmlTableElement, HtmlTextAreaElement, Node,
-    SvgElement, SvgTitleElement,
+    CssStyleDeclaration, Element, HtmlFieldSetElement, HtmlInputElement, HtmlLabelElement,
+    HtmlLegendElement, HtmlOptGroupElement, HtmlSelectElement, HtmlSlotElement,
+    HtmlTableCaptionElement, HtmlTableElement, HtmlTextAreaElement, Node, SvgElement,
+    SvgTitleElement, wasm_bindgen::JsCast, window,
 };
 
 use crate::util::{
-    array_to_vec, has_any_concrete_roles, html_collection_to_vec, node_list_to_vec, query_id_refs,
-    PRESENTATION_ROLES,
+    PRESENTATION_ROLES, array_to_vec, has_any_concrete_roles, html_collection_to_vec,
+    node_list_to_vec, query_id_refs,
 };
 
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
