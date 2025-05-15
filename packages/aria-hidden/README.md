@@ -4,8 +4,8 @@ Rust ARIA Hidden is a Rust port of [aria-hidden](https://www.npmjs.com/package/a
 
 Hides from ARIA everything, except provided node(s). Helps to isolate modal dialogs and focused task - the content will be not accessible using accessible tools.
 
-## Rust For Web
+## Rust for Web
 
-The Rust ARIA Hidden project is part of [Rust For Web](https://github.com/RustForWeb).
+The Rust ARIA Hidden project is part of [Rust for Web](https://github.com/RustForWeb).
 
-[Rust For Web](https://github.com/RustForWeb) creates and ports web UI libraries for Rust. All projects are free and open source.
+[Rust for Web](https://github.com/RustForWeb) creates and ports web UI libraries for Rust. All projects are free and open source.
