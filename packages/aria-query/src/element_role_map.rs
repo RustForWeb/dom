@@ -13,29 +13,29 @@ pub static ELEMENT_ROLES: LazyLock<HashMap<AriaRoleRelationConcept, Vec<AriaRole
                 .chain(role.related_concepts.iter());
 
             for relation in concepts {
-                if relation.module == Some("HTML".into()) {
-                    if let Some(concept) = &relation.concept {
-                        let element_role_relation = element_roles.get(concept);
-                        let mut roles: Vec<AriaRoleDefinitionKey> = vec![];
+                if relation.module == Some("HTML".into())
+                    && let Some(concept) = &relation.concept
+                {
+                    let element_role_relation = element_roles.get(concept);
+                    let mut roles: Vec<AriaRoleDefinitionKey> = vec![];
 
-                        if let Some(element_role_relation) = element_role_relation {
-                            roles.extend(element_role_relation);
-                        }
+                    if let Some(element_role_relation) = element_role_relation {
+                        roles.extend(element_role_relation);
+                    }
 
-                        let mut is_unique = true;
-                        for role in &roles {
-                            if *role == *key {
-                                is_unique = false;
-                                break;
-                            }
+                    let mut is_unique = true;
+                    for role in &roles {
+                        if *role == *key {
+                            is_unique = false;
+                            break;
                         }
-                        if is_unique {
-                            roles.push(*key);
-                        }
+                    }
+                    if is_unique {
+                        roles.push(*key);
+                    }
 
-                        if element_role_relation.is_none() {
-                            element_roles.insert(concept.clone(), roles);
-                        }
+                    if element_role_relation.is_none() {
+                        element_roles.insert(concept.clone(), roles);
                     }
                 }
             }

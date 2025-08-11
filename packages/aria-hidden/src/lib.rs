@@ -63,10 +63,10 @@ fn correct_targets(parent: HtmlElement, targets: Vec<Element>) -> Vec<Element> {
                 return Some(target);
             }
 
-            if let Some(corrected_target) = unwrap_host(NodeOrShadowRoot::Node((*target).clone())) {
-                if parent.contains(Some(&corrected_target)) {
-                    return Some(corrected_target);
-                }
+            if let Some(corrected_target) = unwrap_host(NodeOrShadowRoot::Node((*target).clone()))
+                && parent.contains(Some(&corrected_target))
+            {
+                return Some(corrected_target);
             }
 
             None
