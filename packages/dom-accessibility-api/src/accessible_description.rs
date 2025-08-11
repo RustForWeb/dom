@@ -31,18 +31,18 @@ pub fn compute_accessible_description(
 
     // https://w3c.github.io/aria/#aria-description
     // Mentions that aria-description should only be calculated if aria-describedby didn't provide a description.
-    if description.is_empty() {
-        if let Some(aria_description) = root.get_attribute("aria-description") {
-            description = aria_description;
-        }
+    if description.is_empty()
+        && let Some(aria_description) = root.get_attribute("aria-description")
+    {
+        description = aria_description;
     }
 
     // https://www.w3.org/TR/html-aam-1.0/#accessible-name-and-description-computation
     // Says for so many elements to use the `title` that we assume all elements are considered.
-    if description.is_empty() {
-        if let Some(title) = root.get_attribute("title") {
-            description = title;
-        }
+    if description.is_empty()
+        && let Some(title) = root.get_attribute("title")
+    {
+        description = title;
     }
 
     description

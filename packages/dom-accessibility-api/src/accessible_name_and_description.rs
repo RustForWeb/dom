@@ -476,31 +476,29 @@ pub fn compute_text_alternative(root: &Element, options: ComputeTextAlternativeO
                 if let Some(name_from_alt) = use_attribute(consulted_nodes, element, "alt") {
                     return Some(name_from_alt);
                 }
-            } else if element.is_instance_of::<HtmlOptGroupElement>() {
-                if let Some(name_from_label) = use_attribute(consulted_nodes, element, "label") {
-                    return Some(name_from_label);
-                }
+            } else if element.is_instance_of::<HtmlOptGroupElement>()
+                && let Some(name_from_label) = use_attribute(consulted_nodes, element, "label")
+            {
+                return Some(name_from_label);
             }
 
-            if let Some(input_element) = element.dyn_ref::<HtmlInputElement>() {
-                if input_element.type_() == "button"
+            if let Some(input_element) = element.dyn_ref::<HtmlInputElement>()
+                && (input_element.type_() == "button"
                     || input_element.type_() == "submit"
-                    || input_element.type_() == "reset"
-                {
-                    // https://w3c.github.io/html-aam/#input-type-text-input-type-password-input-type-search-input-type-tel-input-type-email-input-type-url-and-textarea-element-accessible-description-computation
-                    if let Some(name_from_value) = use_attribute(consulted_nodes, element, "value")
-                    {
-                        return Some(name_from_value);
-                    }
+                    || input_element.type_() == "reset")
+            {
+                // https://w3c.github.io/html-aam/#input-type-text-input-type-password-input-type-search-input-type-tel-input-type-email-input-type-url-and-textarea-element-accessible-description-computation
+                if let Some(name_from_value) = use_attribute(consulted_nodes, element, "value") {
+                    return Some(name_from_value);
+                }
 
-                    // TODO: l10n
-                    if input_element.type_() == "submit" {
-                        return Some("Submit".into());
-                    }
-                    // TODO: l10n
-                    if input_element.type_() == "reset" {
-                        return Some("Reset".into());
-                    }
+                // TODO: l10n
+                if input_element.type_() == "submit" {
+                    return Some("Submit".into());
+                }
+                // TODO: l10n
+                if input_element.type_() == "reset" {
+                    return Some("Reset".into());
                 }
             }
 
@@ -535,21 +533,21 @@ pub fn compute_text_alternative(root: &Element, options: ComputeTextAlternativeO
             // https://w3c.github.io/html-aam/#input-type-image-accessible-name-computation
             // TODO: WPT test consider label elements but html-aam does not mention them.
             // We follow existing implementations over spec.
-            if let Some(input_element) = node.dyn_ref::<HtmlInputElement>() {
-                if input_element.type_() == "image" {
-                    let name_for_alt = use_attribute(consulted_nodes, input_element, "alt");
-                    if let Some(name_for_alt) = name_for_alt {
-                        return Some(name_for_alt);
-                    }
-
-                    let name_for_title = use_attribute(consulted_nodes, input_element, "title");
-                    if let Some(name_for_alt) = name_for_title {
-                        return Some(name_for_alt);
-                    }
-
-                    // TODO: l10n
-                    return Some("Submit Query".into());
+            if let Some(input_element) = node.dyn_ref::<HtmlInputElement>()
+                && input_element.type_() == "image"
+            {
+                let name_for_alt = use_attribute(consulted_nodes, input_element, "alt");
+                if let Some(name_for_alt) = name_for_alt {
+                    return Some(name_for_alt);
                 }
+
+                let name_for_title = use_attribute(consulted_nodes, input_element, "title");
+                if let Some(name_for_alt) = name_for_title {
+                    return Some(name_for_alt);
+                }
+
+                // TODO: l10n
+                return Some("Submit Query".into());
             }
 
             if has_any_concrete_roles(node, vec!["button"]) {
@@ -595,42 +593,41 @@ pub fn compute_text_alternative(root: &Element, options: ComputeTextAlternativeO
         }
 
         // 2B
-        if let Some(current) = current.dyn_ref::<Element>() {
-            if let Some(label_attribute_node) = current.get_attribute_node("aria-labelledby") {
-                // TODO: Do we generally need to block query IdRefs of attributes we have already consulted?
-                let label_elements = if !consulted_nodes.contains(&label_attribute_node) {
-                    query_id_refs(current, "aria-labelledby")
-                } else {
-                    vec![]
-                };
+        if let Some(current) = current.dyn_ref::<Element>()
+            && let Some(label_attribute_node) = current.get_attribute_node("aria-labelledby")
+        {
+            // TODO: Do we generally need to block query IdRefs of attributes we have already consulted?
+            let label_elements = if !consulted_nodes.contains(&label_attribute_node) {
+                query_id_refs(current, "aria-labelledby")
+            } else {
+                vec![]
+            };
 
-                if compute == Compute::Name && !context.is_referenced && !label_elements.is_empty()
-                {
-                    consulted_nodes.push(label_attribute_node.unchecked_into::<Node>());
+            if compute == Compute::Name && !context.is_referenced && !label_elements.is_empty() {
+                consulted_nodes.push(label_attribute_node.unchecked_into::<Node>());
 
-                    return label_elements
-                        .into_iter()
-                        .map(move |element| {
-                            // TODO: Chrome will consider repeated values i.e. use a node multiple times while we'll bail out in computeTextAlternative.
-                            inner_compute_text_alternative(
-                                compute,
-                                hidden,
-                                uncached_get_computed_style.clone(),
-                                get_computed_style.clone(),
-                                consulted_nodes,
-                                &element,
-                                ComputeTextAlternativeContext {
-                                    is_embedded_in_label: context.is_embedded_in_label,
-                                    is_referenced: true,
-                                    // This isn't recursion as specified, otherwise we would skip `aria-label` in
-                                    // <input id="myself" aria-label="foo" aria-labelledby="myself" />
-                                    recursion: false,
-                                },
-                            )
-                        })
-                        .collect::<Vec<_>>()
-                        .join(" ");
-                }
+                return label_elements
+                    .into_iter()
+                    .map(move |element| {
+                        // TODO: Chrome will consider repeated values i.e. use a node multiple times while we'll bail out in computeTextAlternative.
+                        inner_compute_text_alternative(
+                            compute,
+                            hidden,
+                            uncached_get_computed_style.clone(),
+                            get_computed_style.clone(),
+                            consulted_nodes,
+                            &element,
+                            ComputeTextAlternativeContext {
+                                is_embedded_in_label: context.is_embedded_in_label,
+                                is_referenced: true,
+                                // This isn't recursion as specified, otherwise we would skip `aria-label` in
+                                // <input id="myself" aria-label="foo" aria-labelledby="myself" />
+                                recursion: false,
+                            },
+                        )
+                    })
+                    .collect::<Vec<_>>()
+                    .join(" ");
             }
         }
 
@@ -651,18 +648,18 @@ pub fn compute_text_alternative(root: &Element, options: ComputeTextAlternativeO
             }
 
             // 2D
-            if !is_marked_presentational(current) {
-                if let Some(element_text_alternative) = compute_element_text_alternative(
+            if !is_marked_presentational(current)
+                && let Some(element_text_alternative) = compute_element_text_alternative(
                     compute,
                     hidden,
                     uncached_get_computed_style.clone(),
                     get_computed_style.clone(),
                     consulted_nodes,
                     current,
-                ) {
-                    consulted_nodes.push(current.clone());
-                    return element_text_alternative;
-                }
+                )
+            {
+                consulted_nodes.push(current.clone());
+                return element_text_alternative;
             }
         }
 

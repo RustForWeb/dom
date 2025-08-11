@@ -15,10 +15,10 @@ pub static ROLE_ELEMENTS: LazyLock<HashMap<AriaRoleDefinitionKey, Vec<AriaRoleRe
                 .chain(role.related_concepts.iter());
 
             for relation in concepts {
-                if relation.module == Some("HTML".into()) {
-                    if let Some(concept) = &relation.concept {
-                        relation_concepts.push(concept.clone());
-                    }
+                if relation.module == Some("HTML".into())
+                    && let Some(concept) = &relation.concept
+                {
+                    relation_concepts.push(concept.clone());
                 }
             }
 
