@@ -1,4 +1,6 @@
-use std::{collections::HashMap, sync::LazyLock};
+use std::{hash::RandomState, sync::LazyLock};
+
+use ordered_hash_map::OrderedHashMap;
 
 use crate::{
     etc::roles::{
@@ -8,7 +10,7 @@ use crate::{
     types::{AriaRoleDefinition, AriaRoleDefinitionKey, AriaRoleDefinitionSuperClass},
 };
 
-pub static ROLES: LazyLock<HashMap<AriaRoleDefinitionKey, AriaRoleDefinition>> =
+pub static ROLES: LazyLock<OrderedHashMap<AriaRoleDefinitionKey, AriaRoleDefinition, RandomState>> =
     LazyLock::new(|| {
         let role_definitions = (*ARIA_ABSTRACT_ROLES)
             .clone()
@@ -17,7 +19,7 @@ pub static ROLES: LazyLock<HashMap<AriaRoleDefinitionKey, AriaRoleDefinition>> =
             .chain(ARIA_DPUB_ROLES.clone())
             .chain(ARIA_GRAPHICS_ROLES.clone());
 
-        let immutable_roles = HashMap::from_iter(role_definitions);
+        let immutable_roles = OrderedHashMap::from_iter(role_definitions);
         let mut roles = immutable_roles.clone();
 
         for role_definition in roles.values_mut() {
@@ -25,7 +27,9 @@ pub static ROLES: LazyLock<HashMap<AriaRoleDefinitionKey, AriaRoleDefinition>> =
                 for super_class in super_classes {
                     let super_class_role =
                         immutable_roles.iter().find(|(name, _)| match super_class {
-                            AriaRoleDefinitionSuperClass::AbstractRole(_) => false,
+                            AriaRoleDefinitionSuperClass::AbstractRole(role) => {
+                                **name == AriaRoleDefinitionKey::from(*role)
+                            }
                             AriaRoleDefinitionSuperClass::Role(role) => {
                                 **name == AriaRoleDefinitionKey::from(*role)
                             }

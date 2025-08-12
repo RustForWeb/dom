@@ -1,4 +1,6 @@
-use std::{collections::HashMap, sync::LazyLock};
+use std::{collections::HashMap, hash::RandomState, sync::LazyLock};
+
+use ordered_hash_map::OrderedHashMap;
 
 use crate::types::{
     AriaAbstractRole, AriaNameFromSource, AriaProperty, AriaRole, AriaRoleDefinition,
@@ -7,9 +9,10 @@ use crate::types::{
     AriaRoleRelationConceptConstraint,
 };
 
-pub static ARIA_LITERAL_ROLES: LazyLock<HashMap<AriaRoleDefinitionKey, AriaRoleDefinition>> =
-    LazyLock::new(|| {
-        HashMap::from([
+pub static ARIA_LITERAL_ROLES: LazyLock<
+    OrderedHashMap<AriaRoleDefinitionKey, AriaRoleDefinition, RandomState>,
+> = LazyLock::new(|| {
+    OrderedHashMap::from_iter([
             (
                 AriaRoleDefinitionKey::Alertdialog,
                 AriaRoleDefinition {
@@ -3920,4 +3923,4 @@ pub static ARIA_LITERAL_ROLES: LazyLock<HashMap<AriaRoleDefinitionKey, AriaRoleD
                 },
             ),
         ])
-    });
+});
