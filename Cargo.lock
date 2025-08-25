@@ -27,7 +27,6 @@ dependencies = [
 name = "aria-hidden"
 version = "0.0.1"
 dependencies = [
- "once_cell",
  "web-sys",
 ]
 
